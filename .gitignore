@@ -1,0 +1,34 @@
+node_modules/
+
+dist/
+build/
+coverage/
+*.log
+logs/
+
+# Archivos del editor
+.vscode/
+.idea/
+
+.npm/
+.yarn/
+
+# Archivos de entorno
+.env
+.env.* 
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de pruebas
+coverage/
+
+# Archivos de herramientas
+.eslintcache
+.prettiercache
+
+# Archivos de Vue (si aplica)
+.nuxt/
+.cache/
+

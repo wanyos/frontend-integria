@@ -1,0 +1,74 @@
+/* @import './base.css'; */
+
+:root {
+  --color-text: #0088cc;
+  --color-test-p: #1a1a1a;
+  --hover-button: #c7d8fa;
+  --close-button: #e05e5e;
+  --close-button-hover: #ee8888;
+}
+
+html,
+body {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Consolas', monospace;
+}
+
+/* reset style */
+button,
+input {
+  all: unset;
+}
+
+.logo {
+  /* background: url('https://enertic.org/wp-content/uploads/2019/05/Plantilla-3-133x133.png')
+    no-repeat; */
+  background: url('../../image-logo.png') no-repeat;
+  /* border: 1px solid rgb(205, 199, 199); */
+  border-radius: 5px;
+  width: 100px;
+  height: 80px;
+}
+
+.main-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  border-radius: 5px;
+  background-color: #edf0f6;
+}
+
+/* #app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-weight: normal;
+}
+
+a,
+.green {
+  text-decoration: none;
+  color: hsla(160, 100%, 37%, 1);
+  transition: 0.4s;
+  padding: 3px;
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: hsla(160, 100%, 37%, 0.2);
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    display: flex;
+    place-items: center;
+  }
+
+  #app {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0 2rem;
+  }
+} */
