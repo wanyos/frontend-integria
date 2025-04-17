@@ -6,9 +6,9 @@ export function buildChartData(incidents) {
     Operadores: [],
     Técnicos: [],
     Administradores: [],
-    Ciberseguridad: [],
+    Ciberseguridad: []
   }
-  incidents.forEach((incident) => {
+  incidents.forEach(incident => {
     const group = getGroupName(incident.id_grupo)
     const daysOpen = calculateDaysOpen(incident.inicio)
 
@@ -56,12 +56,12 @@ export function generateHeatmapData(incidents) {
     'Sep',
     'Oct',
     'Nov',
-    'Dec',
+    'Dec'
   ]
 
   // Usar un Map para agrupar datos por meses
   const groupedData = new Map()
-  months.forEach((month) => {
+  months.forEach(month => {
     groupedData.set(month, new Array(31).fill(null)) // Preasignar 31 días (máximo)
   })
 
@@ -77,9 +77,9 @@ export function generateHeatmapData(incidents) {
   })
 
   // Transformar a un array de series para el heatmap
-  return months.map((month) => ({
+  return months.map(month => ({
     name: month,
-    data: groupedData.get(month).filter((day) => day !== null), // Filtrar días nulos
+    data: groupedData.get(month).filter(day => day !== null) // Filtrar días nulos
   }))
 }
 
@@ -89,17 +89,17 @@ const GRUPOS = {
   Operadores: 2,
   Técnicos: 7,
   Administradores: 8,
-  Ciberseguridad: 148,
+  Ciberseguridad: 148
 }
 
-export const generateDataScatterGroup = (incidencias) => {
+export const generateDataScatterGroup = incidencias => {
   // Inicializamos las series con los nombres de los grupos
   const series = Object.keys(GRUPOS).map((grupo, index) => ({
     name: grupo,
-    data: [], // Inicialmente vacío
+    data: [] // Inicialmente vacío
   }))
   // Procesamos cada incidencia
-  incidencias.forEach((incidencia) => {
+  incidencias.forEach(incidencia => {
     const { id_grupo, id_incidencia, inicio } = incidencia
     // Encontramos el grupo correspondiente
     const grupoIndex = Object.values(GRUPOS).indexOf(id_grupo)
@@ -108,7 +108,7 @@ export const generateDataScatterGroup = (incidencias) => {
       series[grupoIndex].data.push({
         x: grupoIndex, // El índice del grupo en el eje X
         y: dias, // Días calculados
-        id: id_incidencia, // ID de la incidencia
+        id: id_incidencia // ID de la incidencia
       })
     }
   })
@@ -131,22 +131,22 @@ export function generateDataStakedBar(allIncidentsGroup) {
   const data = [
     {
       name: 'Abiertas',
-      data: openData,
+      data: openData
     },
     {
       name: 'Cerradas',
-      data: closeData,
-    },
+      data: closeData
+    }
   ]
   const totalData = {
     groups: categories,
-    incidents: data,
+    incidents: data
   }
   return totalData
 }
 
 /****************        generate objects serie for chart areabar incidents by months      ******************/
-export const generateAreapData = (incidents) => {
+export const generateAreapData = incidents => {
   const monthNames = [
     'January',
     'February',
@@ -159,7 +159,7 @@ export const generateAreapData = (incidents) => {
     'September',
     'October',
     'November',
-    'December',
+    'December'
   ]
 
   // Inicializar un array para almacenar el total de incidencias por mes
@@ -174,14 +174,14 @@ export const generateAreapData = (incidents) => {
   // Convertir los datos al formato requerido por el gráfico
   const seriesData = totalMonths.map((count, month) => ({
     x: monthNames[month], // Nombre del mes
-    y: count, // Total de incidencias
+    y: count // Total de incidencias
   }))
 
   return [
     {
       name: 'Incidents',
-      data: seriesData,
-    },
+      data: seriesData
+    }
   ]
 }
 
@@ -197,11 +197,11 @@ const monthNames = [
   'Sep',
   'Oct',
   'Nov',
-  'Dec',
+  'Dec'
 ]
 
 /****************        generate donut avg incidents by months all years      ******************/
-export const getAvgByMonths = (incidents) => {
+export const getAvgByMonths = incidents => {
   const totalMonths = {
     1: { total: 0, count: 0 },
     2: { total: 0, count: 0 },
@@ -214,7 +214,7 @@ export const getAvgByMonths = (incidents) => {
     9: { total: 0, count: 0 },
     10: { total: 0, count: 0 },
     11: { total: 0, count: 0 },
-    12: { total: 0, count: 0 },
+    12: { total: 0, count: 0 }
   }
 
   // Sumar los valores de count y contar las ocurrencias para cada mes
@@ -226,7 +226,7 @@ export const getAvgByMonths = (incidents) => {
   })
 
   // Calcular el promedio para cada mes
-  const values = Object.keys(totalMonths).map((month) => {
+  const values = Object.keys(totalMonths).map(month => {
     const { total, count } = totalMonths[month]
     return count > 0 ? Math.round(total / count) : 0
   })
@@ -235,25 +235,25 @@ export const getAvgByMonths = (incidents) => {
   //console.log('labels procesor', monthNames)
   return {
     labels: Array.from(monthNames),
-    values: Array.from(values),
+    values: Array.from(values)
   }
 }
 
 /****************        generate rows for months table      ******************/
 
 const createMonthsArray = () => {
-  return monthNames.map((month) => ({
-    counts: {},
+  return monthNames.map(month => ({
+    counts: {}
   }))
 }
 
-export const getRowsTableByMonths = (incidents) => {
+export const getRowsTableByMonths = incidents => {
   const monthsArray = createMonthsArray()
-  const years = new Set(incidents.map((incident) => incident.year))
+  const years = new Set(incidents.map(incident => incident.year))
 
   // Inicializar todos los meses con 0 para cada año
-  monthsArray.forEach((monthObj) => {
-    years.forEach((year) => {
+  monthsArray.forEach(monthObj => {
+    years.forEach(year => {
       monthObj.counts[year] = 0
     })
   })
@@ -271,19 +271,19 @@ export const getRowsTableByMonths = (incidents) => {
     const row = {}
     Object.keys(counts)
       .sort() // Asegurarse de que los años estén en orden ascendente
-      .forEach((year) => {
+      .forEach(year => {
         row[year] = counts[year] || 0
       })
     return row
   })
 }
 
-export const generateDataDonnut = (incidents) => {
+export const generateDataDonnut = incidents => {
   const labels = []
   const values = []
 
   if (Array.isArray(incidents)) {
-    incidents.forEach((item) => {
+    incidents.forEach(item => {
       if (item && typeof item === 'object') {
         const keys = Object.keys(item)
         if (keys.length >= 2) {
@@ -305,27 +305,27 @@ export const generateDataDonnut = (incidents) => {
   // console.log('values', values)
   return {
     labels: Array.from(labels),
-    values: Array.from(values),
+    values: Array.from(values)
   }
 }
 
-export const generateDataGradient = (incidents) => {
+export const generateDataGradient = incidents => {
   const values = []
-  incidents.forEach((inc) => {
+  incidents.forEach(inc => {
     values.push(inc.count)
   })
   return { values }
 }
 
-export const generateDataBarchart = (incidents) => {
+export const generateDataBarchart = incidents => {
   const values = []
-  incidents.forEach((inc) => {
+  incidents.forEach(inc => {
     values.push(inc.count)
   })
   return { values }
 }
 
-export const getRowsTableYears = (incidents) => {
+export const getRowsTableYears = incidents => {
   const rows = []
   for (let a = 0; a < incidents.length; a++) {
     let diff = 0
@@ -341,7 +341,7 @@ export const getRowsTableYears = (incidents) => {
       year: incidents[a].year,
       inc: incidents[a].count,
       tase: diff,
-      percent: per,
+      percent: per
     }
     rows.push(row)
   }

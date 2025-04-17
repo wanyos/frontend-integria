@@ -59,7 +59,7 @@ const titleModal = ref('')
 const routeName = computed(() => route.name)
 const showMenu = computed(() => routeName.value === 'Report')
 
-const openModal = (title) => {
+const openModal = title => {
   showModalLogin.value = true
   titleModal.value = title
 }

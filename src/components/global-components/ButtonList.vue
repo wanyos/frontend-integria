@@ -41,12 +41,12 @@ import { ref, computed, watch } from 'vue'
 const props = defineProps({
   title: {
     type: String,
-    default: '',
+    default: ''
   },
   emails: {
     type: Array,
-    default: () => [],
-  },
+    default: () => []
+  }
 })
 
 const isEditing = ref(false)
@@ -81,7 +81,7 @@ watch(
   (newValue, oldValue) => {
     console.log('new', newValue)
     console.log('old', oldValue)
-  },
+  }
 )
 </script>
 

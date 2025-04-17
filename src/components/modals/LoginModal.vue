@@ -71,12 +71,12 @@ import { useAuthenticationStore } from '@/stores/authentication'
 const props = defineProps({
   show: {
     type: Boolean,
-    default: false,
+    default: false
   },
   title: {
     type: String,
-    default: 'Sign In',
-  },
+    default: 'Sign In'
+  }
 })
 
 const authStore = useAuthenticationStore()
@@ -86,9 +86,9 @@ const passwordFieldType = ref('password')
 
 watch(
   () => props.show,
-  (newVal) => {
+  newVal => {
     showModal.value = newVal
-  },
+  }
 )
 
 const typeRegister = computed(() => props.title === 'Sing Up')

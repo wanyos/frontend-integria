@@ -1,6 +1,6 @@
 import ExcelJS from 'exceljs'
 
-export const readExcelFile = async (filePath) => {
+export const readExcelFile = async filePath => {
   const workbook = new ExcelJS.Workbook()
   await workbook.xlsx.readFile(filePath)
 
@@ -28,7 +28,7 @@ export const convertJsonToExcel = async (jsonData, columnOrder, startDate, endDa
   const categories = Object.keys(jsonData[excelName])
   const workbook = new ExcelJS.Workbook()
 
-  categories.forEach((incName) => {
+  categories.forEach(incName => {
     const worksheet = workbook.addWorksheet(`${incName}`)
     const arrayInc = jsonData[excelName][incName]
 
@@ -50,8 +50,8 @@ export const convertJsonToExcel = async (jsonData, columnOrder, startDate, endDa
 
     if (arrayInc.length > 0) {
       worksheet.columns = columnOrder
-        .filter((header) => Object.prototype.hasOwnProperty.call(arrayInc[0], header))
-        .map((header) => ({ key: header, width: 12 }))
+        .filter(header => Object.prototype.hasOwnProperty.call(arrayInc[0], header))
+        .map(header => ({ key: header, width: 12 }))
 
       const headerRow = worksheet.getRow(3)
       columnOrder.forEach((key, index) => {
@@ -63,7 +63,7 @@ export const convertJsonToExcel = async (jsonData, columnOrder, startDate, endDa
       headerRow.alignment = { horizontal: 'center' }
       headerRow.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'E6E6E6' } }
 
-      arrayInc.forEach((data) => {
+      arrayInc.forEach(data => {
         const orderedData = columnOrder.reduce((acc, key) => {
           acc[key] = data[key] || ''
           return acc
@@ -77,7 +77,7 @@ export const convertJsonToExcel = async (jsonData, columnOrder, startDate, endDa
   // const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
   return {
     name: excelName,
-    content: buffer,
+    content: buffer
   }
 
   // const userDataPath = app.getPath('userData'); // Obtiene una ruta segura para guardar datos

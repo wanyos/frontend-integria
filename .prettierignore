@@ -1,0 +1,14 @@
+# Carpetas generadas
+dist
+dist-ssr
+node_modules
+coverage
+
+# Archivos específicos
+*.min.js
+*.svg
+*.json
+package-lock.json
+
+# Logs
+*.log

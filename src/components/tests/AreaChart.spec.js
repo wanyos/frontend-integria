@@ -11,16 +11,16 @@ const mockHandleMouseLeave = vi.fn()
 vi.mock('@/composables/useChartUtils', () => ({
   useChartUtils: () => ({
     chartRef: ref(null),
-    handleMouseLeave: mockHandleMouseLeave,
-  }),
+    handleMouseLeave: mockHandleMouseLeave
+  })
 }))
 
 // Mock de vue3-apexcharts para evitar problemas de renderizado en tests
 vi.mock('vue3-apexcharts', () => ({
   default: {
     name: 'VueApexCharts',
-    render: () => {},
-  },
+    render: () => {}
+  }
 }))
 
 describe('AreaChart', () => {
@@ -36,10 +36,10 @@ describe('AreaChart', () => {
         data: [
           { x: 'January', y: 30 },
           { x: 'February', y: 40 },
-          { x: 'March', y: 35 },
-        ],
-      },
-    ],
+          { x: 'March', y: 35 }
+        ]
+      }
+    ]
   }
 
   beforeEach(() => {
@@ -50,9 +50,9 @@ describe('AreaChart', () => {
       props: defaultProps,
       global: {
         stubs: {
-          VueApexCharts: true,
-        },
-      },
+          VueApexCharts: true
+        }
+      }
     })
   })
 
@@ -80,16 +80,16 @@ describe('AreaChart', () => {
         name: 'Updated Incidents',
         data: [
           { x: 'January', y: 100 },
-          { x: 'February', y: 200 },
-        ],
-      },
+          { x: 'February', y: 200 }
+        ]
+      }
     ]
 
     await wrapper.setProps({
       title: 'Updated Title',
       subtitle: '2025',
       color: '#FF5722',
-      incidents: newIncidents,
+      incidents: newIncidents
     })
 
     // Esperar a que el watcher y el nextTick del componente se ejecuten
@@ -111,9 +111,9 @@ describe('AreaChart', () => {
         name: 'Updated Incidents',
         data: [
           { x: 'January', y: 100 },
-          { x: 'February', y: 200 },
-        ],
-      },
+          { x: 'February', y: 200 }
+        ]
+      }
     ]
 
     await wrapper.setProps({ incidents: newIncidents })
@@ -133,10 +133,10 @@ describe('AreaChart', () => {
         stubs: {
           VueApexCharts: {
             template: '<div class="vue-apex-charts" @mouseleave="$emit(\'mouse-leave\')"></div>',
-            props: ['options', 'series'],
-          },
-        },
-      },
+            props: ['options', 'series']
+          }
+        }
+      }
     })
 
     // Simular el evento mouse-leave

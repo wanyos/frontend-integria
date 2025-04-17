@@ -17,8 +17,8 @@ import { useChartUtils } from '@/composables/useChartUtils'
 const props = defineProps({
   allIncidents: {
     type: Array,
-    default: () => [],
-  },
+    default: () => []
+  }
 })
 
 // const series = ref([
@@ -50,7 +50,7 @@ const chartOptions = ref({
     type: 'scatter',
     zoom: {
       enabled: false,
-      type: 'xy',
+      type: 'xy'
     },
     toolbar: {
       show: true,
@@ -61,9 +61,9 @@ const chartOptions = ref({
         zoomin: false,
         zoomout: false,
         pan: false,
-        reset: false,
-      },
-    },
+        reset: false
+      }
+    }
   },
   colors: ['#ee975f', '#7fba57', '#537ba4', '#8d3d75'],
   title: {
@@ -73,8 +73,8 @@ const chartOptions = ref({
     style: {
       fontSize: '16px',
       fontWeight: 'normal',
-      color: '#1a1a1a',
-    },
+      color: '#1a1a1a'
+    }
   },
   subtitle: {
     text: 'Distribution by department', // Subtítulo
@@ -83,8 +83,8 @@ const chartOptions = ref({
     style: {
       fontSize: '14px',
       fontWeight: 'normal',
-      color: '#666',
-    },
+      color: '#666'
+    }
   },
   xaxis: {
     type: 'category',
@@ -99,17 +99,17 @@ const chartOptions = ref({
       formatter: function (value) {
         const abbreviations = ['Ope', 'Tec', 'Adm', 'Cib']
         return abbreviations[value] || ''
-      },
+      }
     },
     tooltip: {
-      enabled: false, // Desactiva la etiqueta adicional del eje X
+      enabled: false // Desactiva la etiqueta adicional del eje X
     },
     axisTicks: {
-      show: false, // Oculta las marcas en el eje x
+      show: false // Oculta las marcas en el eje x
     },
     axisBorder: {
-      show: true, // Oculta la línea del eje x
-    },
+      show: true // Oculta la línea del eje x
+    }
   },
   yaxis: {
     min: 0, // Valor mínimo del eje Y
@@ -117,7 +117,7 @@ const chartOptions = ref({
     tickAmount: undefined, // Remove fixed tick amount to allow more flexible scaling
     labels: {
       style: {
-        fontSize: '12px', // Increase font size for y-axis labels
+        fontSize: '12px' // Increase font size for y-axis labels
       },
       formatter: function (value) {
         // Customize labels based on value ranges
@@ -126,20 +126,20 @@ const chartOptions = ref({
         } else {
           return value % 1000 === 0 ? `${value} days` : '' // Only show labels at 1000 increments above 200
         }
-      },
+      }
     },
     tickValues: [
       // Create a more granular tick distribution
-      0, 10, 15, 25, 50, 75, 100, 125, 150, 175, 200, 250, 300, 350, 400, 600, 1000,
+      0, 10, 15, 25, 50, 75, 100, 125, 150, 175, 200, 250, 300, 350, 400, 600, 1000
     ],
     splitLine: {
-      show: true,
-    },
+      show: true
+    }
   },
   legend: {
     show: true,
     position: 'bottom',
-    fontSize: '12px', // Increase font size for legend
+    fontSize: '12px' // Increase font size for legend
   },
   grid: {
     show: true,
@@ -148,33 +148,33 @@ const chartOptions = ref({
       top: 20,
       right: 70,
       bottom: 20,
-      left: 70,
-    },
+      left: 70
+    }
   },
   tooltip: {
     y: {
       title: {
-        formatter: () => '', // Elimina el título (categoría)
+        formatter: () => '' // Elimina el título (categoría)
       },
       formatter: function (value) {
         return `Días: ${value}` // Solo muestra el número de días
-      },
+      }
     },
     x: {
       formatter: function (value, { seriesIndex, dataPointIndex, w }) {
         const data = w.globals.initialSeries[seriesIndex].data[dataPointIndex]
         return `ID: ${data.id}`
-      },
-    },
-  },
+      }
+    }
+  }
 })
 
 watch(
   () => props.allIncidents,
-  (newIncidents) => {
+  newIncidents => {
     seriesData.value = newIncidents
   },
-  { immediate: true },
+  { immediate: true }
 )
 </script>
 

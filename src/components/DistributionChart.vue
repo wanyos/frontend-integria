@@ -13,7 +13,7 @@ import {
   TooltipComponent,
   LegendComponent,
   ToolboxComponent,
-  GridComponent,
+  GridComponent
 } from 'echarts/components'
 import VChart, { THEME_KEY } from 'vue-echarts'
 import { ref, provide, watch, reactive, computed } from 'vue'
@@ -26,7 +26,7 @@ use([
   TooltipComponent,
   LegendComponent,
   ToolboxComponent,
-  GridComponent,
+  GridComponent
 ])
 
 provide(THEME_KEY, 'light')
@@ -34,8 +34,8 @@ provide(THEME_KEY, 'light')
 const props = defineProps({
   allIncidents: {
     type: Array,
-    default: () => [],
-  },
+    default: () => []
+  }
 })
 
 const isLoading = ref(false)
@@ -44,10 +44,10 @@ const chartData = reactive({})
 // Watch for changes in allIncidents and update chartData
 watch(
   () => props.allIncidents,
-  (newIncidents) => {
+  newIncidents => {
     Object.assign(chartData, buildChartData(newIncidents))
   },
-  { immediate: true },
+  { immediate: true }
 )
 
 const option = ref({
@@ -59,27 +59,27 @@ const option = ref({
       fontSize: 16,
       fontWeight: 'normal',
       color: '#1a1a1a',
-      padding: [0, 0, 0, 20], // [Arriba, Derecha, Abajo, Izquierda]
+      padding: [0, 0, 0, 20] // [Arriba, Derecha, Abajo, Izquierda]
     },
     subtextStyle: {
       fontSize: 12,
       color: '#666',
-      padding: [0, 0, 0, 20], // Espaciado adicional para el subtítulo
-    },
+      padding: [0, 0, 0, 20] // Espaciado adicional para el subtítulo
+    }
   },
   grid: {
     top: '20%', // Ajusta el espacio entre el título y el chart
     left: '5%',
     right: '5%',
     bottom: '10%', // Ajusta el espacio inferior para la leyenda
-    containLabel: true,
+    containLabel: true
   },
   tooltip: {
     trigger: 'item',
     formatter: function (params) {
       const originalValue = params.data[2] || params.data[1] // Use the original value if available
       return `ID: ${params.data[0]}<br/>Days: ${originalValue}<br/>${params.seriesName}`
-    },
+    }
   },
   xAxis: {
     type: 'value', // Cambia a 'value' para representar un rango continuo
@@ -88,15 +88,15 @@ const option = ref({
     interval: 5000, // Intervalo más pequeño para mostrar más etiquetas
     axisLabel: {
       formatter: '{value}', // Formato de las etiquetas
-      rotate: 45, // Inclinación de etiquetas
+      rotate: 45 // Inclinación de etiquetas
     },
     axisTick: {
-      show: false,
+      show: false
     },
     boundaryGap: false,
     splitLine: {
-      show: false, // Oculta las líneas del grid
-    },
+      show: false // Oculta las líneas del grid
+    }
   },
   yAxis: {
     type: 'value',
@@ -106,18 +106,18 @@ const option = ref({
     axisLabel: {
       formatter: function (value) {
         return value >= 250 ? '+250 days' : `${value} days`
-      },
+      }
     },
     splitLine: {
-      show: true,
+      show: true
     },
-    data: [0, 25, 50, 75, 100, 125, 150, 175, 200, 225, 250], // Rangos personalizados más pequeños
+    data: [0, 25, 50, 75, 100, 125, 150, 175, 200, 225, 250] // Rangos personalizados más pequeños
   },
   series: computed(() =>
-    Object.keys(chartData).map((group) => ({
+    Object.keys(chartData).map(group => ({
       name: group,
       type: 'scatter',
-      data: chartData[group].map((item) => [item[0], item[1] > 250 ? 250 : item[1], item[1]]), // Store original value
+      data: chartData[group].map(item => [item[0], item[1] > 250 ? 250 : item[1], item[1]]), // Store original value
       symbolSize: 10,
       itemStyle: {
         color:
@@ -129,9 +129,9 @@ const option = ref({
                 ? '#20B2AA'
                 : group === 'Ciberseguridad'
                   ? '#9460ba'
-                  : '#20B2BB',
-      },
-    })),
+                  : '#20B2BB'
+      }
+    }))
   ),
   toolbox: {
     show: true, // Muestra el toolbox
@@ -141,16 +141,16 @@ const option = ref({
         title: 'Save as Image', // Título del botón
         type: ['png', 'jpeg', 'svg'], // Formatos de imagen disponibles
         pixelRatio: 2, // Calidad de la imagen exportada
-        backgroundColor: '#ffffff', // Fondo de la imagen
-      },
-    },
+        backgroundColor: '#ffffff' // Fondo de la imagen
+      }
+    }
   },
   legend: {
     data: ['Operadores', 'Técnicos', 'Administradores', 'Ciberseguridad'], // Incluye el nuevo departamento
     orient: 'horizontal',
     left: 'center',
-    bottom: 0, // Posiciona la leyenda en la parte inferior
-  },
+    bottom: 0 // Posiciona la leyenda en la parte inferior
+  }
 })
 </script>
 

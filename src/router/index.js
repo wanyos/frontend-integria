@@ -11,34 +11,34 @@ const router = createRouter({
       name: 'Report',
       component: ReportView,
       meta: {
-        requireLogin: false,
-      },
+        requireLogin: false
+      }
     },
     {
       path: '/incidents',
       name: 'Incidents',
       component: () => import('@/views/IncidentsView.vue'),
       meta: {
-        requireLogin: true,
-      },
+        requireLogin: true
+      }
     },
     {
       path: '/inventory',
       name: 'Inventory',
       component: () => import('@/views/InventoryView.vue'),
       meta: {
-        requireLogin: true,
-      },
+        requireLogin: true
+      }
     },
     {
       path: '/users',
       name: 'Users',
       component: () => import('@/views/UsersView.vue'),
       meta: {
-        requireLogin: true,
-      },
-    },
-  ],
+        requireLogin: true
+      }
+    }
+  ]
 })
 
 router.beforeEach((to, from, next) => {

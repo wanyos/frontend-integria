@@ -19,20 +19,20 @@ import { computed } from 'vue'
 const props = defineProps({
   title: {
     type: String,
-    required: true,
+    required: true
   },
   subtitle: {
     type: [String, Number],
-    default: '',
+    default: ''
   },
   titleClass: {
     type: [String, Array, Object],
-    default: null,
+    default: null
   },
   subtitleClass: {
     type: [String, Array, Object],
-    default: null,
-  },
+    default: null
+  }
 })
 
 const getTitleClass = computed(() => props.titleClass || 'default-title-class')

@@ -9,7 +9,7 @@ export default class ApiBase {
 
   static _getHeaders(includeToken = true) {
     const headers = {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     }
     if (includeToken && this.token) {
       headers['Authorization'] = `Bearer ${this.token}`
@@ -19,7 +19,7 @@ export default class ApiBase {
 
   async get(endpoint, includeToken) {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-      headers: ApiBase._getHeaders(includeToken),
+      headers: ApiBase._getHeaders(includeToken)
     })
     if (!response.ok) {
       const errorData = await response.json()
@@ -32,7 +32,7 @@ export default class ApiBase {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, {
       method: 'POST',
       headers: ApiBase._getHeaders(includeToken),
-      body: JSON.stringify(data),
+      body: JSON.stringify(data)
     })
     if (!response.ok) {
       const errorData = await response.json()
@@ -47,7 +47,7 @@ export default class ApiBase {
       const response = await fetch(`${API_BASE_URL}${endpoint}`, {
         method: 'PUT',
         headers: ApiBase._getHeaders(includeToken),
-        body: JSON.stringify(data),
+        body: JSON.stringify(data)
       })
 
       if (!response.ok) {
@@ -65,7 +65,7 @@ export default class ApiBase {
       const response = await fetch(`${API_BASE_URL}${endpoint}`, {
         method: 'PATCH',
         headers: ApiBase._getHeaders(includeToken),
-        body: JSON.stringify(data),
+        body: JSON.stringify(data)
       })
 
       if (!response.ok) {
@@ -81,7 +81,7 @@ export default class ApiBase {
   async delete(endpoint) {
     try {
       const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-        method: 'DELETE',
+        method: 'DELETE'
       })
 
       if (!response.ok) {

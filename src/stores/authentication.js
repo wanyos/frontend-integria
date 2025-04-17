@@ -7,12 +7,12 @@ export const useAuthenticationStore = defineStore('authentication', () => {
   const credentials = reactive({
     username: null,
     password: null,
-    email: null,
+    email: null
   })
 
   const userLogin = reactive({
     username: null,
-    email: null,
+    email: null
   })
 
   const errorMsg = reactive([])
@@ -37,13 +37,13 @@ export const useAuthenticationStore = defineStore('authentication', () => {
   })
 
   // Observar cambios en isAuthenticated
-  watch(isAuthenticated, (newValue) => {
+  watch(isAuthenticated, newValue => {
     if (newValue === null) {
       logout()
     }
   })
 
-  const setDataToken = (res) => {
+  const setDataToken = res => {
     token.value = res.token
     userLogin.username = res.username
     userLogin.email = res.email
@@ -72,7 +72,7 @@ export const useAuthenticationStore = defineStore('authentication', () => {
       const response = await LoginApi.postRegister(
         credentials.username,
         credentials.password,
-        credentials.email,
+        credentials.email
       )
       if (response.status === 201) {
         setDataToken(response)

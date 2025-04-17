@@ -60,7 +60,7 @@
         :title="file.name"
         :icon="IconExcel"
         :size="file.content.byteLength"
-        @drag-start="(e) => handleFileDragStart(e, file)"
+        @drag-start="e => handleFileDragStart(e, file)"
       />
 
       <CardFile
@@ -69,7 +69,7 @@
         :title="file.name"
         :icon="IconExcel"
         :size="file.content.byteLength"
-        @drag-start="(e) => handleFileDragStart(e, file)"
+        @drag-start="e => handleFileDragStart(e, file)"
       />
     </div>
 
@@ -136,7 +136,7 @@ const dates = reactive({ initDate: null, endDate: null })
 let incIss = null
 let integriaTec = null
 
-const selectDate = (date) => {
+const selectDate = date => {
   dates.endDate = dayjs(date)
   dates.initDate = dates.endDate.subtract(6, 'day')
 }
@@ -145,16 +145,16 @@ const isDisabled = computed(() => (dates.initDate === null ? 'btnDisabled' : 'bt
 const datesServidesk = computed(() =>
   dates.endDate !== null
     ? `Dates servidesk 01 Jan, 2024 -- ${dates.endDate.format('DD MMM,YYYY')}`
-    : '',
+    : ''
 )
 const datesIntegria = computed(() =>
   dates.endDate !== null
     ? `Dates integria: ${integriaInit.value.format('DD MMM,YYYY')} -- ${dates.endDate.format('DD MMM,YYYY')}`
-    : '',
+    : ''
 )
 
 const isArrayFiles = computed(() =>
-  issIncidents.value.length === 0 && integriaTechnology.value === 0 ? 'btnDisabled' : 'btnEnabled',
+  issIncidents.value.length === 0 && integriaTechnology.value === 0 ? 'btnDisabled' : 'btnEnabled'
 )
 
 onMounted(async () => {
@@ -176,13 +176,13 @@ const search = async () => {
   const incIntegria = await IncidentsApi.getIncExternalResolutor(
     integriaInit.value.format('YYYY-MM-DD'),
     endDate,
-    token,
+    token
   )
 
-  incidents.value = incIntegria.map((item) => {
+  incidents.value = incIntegria.map(item => {
     let to = []
     let cc = []
-    const obj = EMAIL_LIST.find((list) => item.id === list.id)
+    const obj = EMAIL_LIST.find(list => item.id === list.id)
     if (obj) {
       to = obj.to
       cc = obj.cc
@@ -192,7 +192,7 @@ const search = async () => {
       resolutor: item.resolutor,
       totalIncidents: item.incidents.length,
       emailsTo: to,
-      emailsCc: cc,
+      emailsCc: cc
     }
   })
 
@@ -200,11 +200,11 @@ const search = async () => {
   integriaTec = await IncidentsApi.getIncidentsTechnology(
     integriaInit.value.format('YYYY-MM-DD'),
     endDate,
-    token,
+    token
   )
   integriaTechnology.value = Object.entries(integriaTec).map(([type, incidents]) => ({
     type,
-    total: incidents.length,
+    total: incidents.length
   }))
 
   // incidents servidesk
@@ -212,7 +212,7 @@ const search = async () => {
     incIss = await IncidentsApi.getIssIncidents(token)
     issIncidents.value = Object.entries(incIss).map(([location, incidents]) => ({
       location,
-      total: incidents.length,
+      total: incidents.length
     }))
   } catch (error) {
     issIncidents.value = [{ location: 'No data', total: 0 }]
@@ -253,7 +253,7 @@ const sendGmail = async () => {
     const res = await fetch('http://localhost:8022/send-gmail', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: token.value },
-      body: JSON.stringify({ email, title, comment, incidents: incidents.value }),
+      body: JSON.stringify({ email, title, comment, incidents: incidents.value })
     })
 
     const result = await res.text()
@@ -263,7 +263,7 @@ const sendGmail = async () => {
   }
 }
 
-const handleButtonClick = async (item) => {
+const handleButtonClick = async item => {
   const email = item.emailsTo.join(',')
   const cc = item.emailsCc.join(',')
   const title = `EMT - Seguimiento de incidencias ${item.resolutor}`
@@ -274,7 +274,7 @@ const handleButtonClick = async (item) => {
     const res = await fetch('http://localhost:8022/send-gmail', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: token.value },
-      body: JSON.stringify({ email, cc, title, comment, incidents: incidents.value }),
+      body: JSON.stringify({ email, cc, title, comment, incidents: incidents.value })
     })
 
     const result = await res.text()

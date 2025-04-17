@@ -11,7 +11,7 @@ export default class DateRangeCalculator {
     'Last 7 Months': 'last6Months',
     'Last 4 Months': 'last3Months',
     'This Year': 'thisYear',
-    'Last Year': 'lastyear',
+    'Last Year': 'lastyear'
   }
 
   static getDateRange(selection, currentYear) {

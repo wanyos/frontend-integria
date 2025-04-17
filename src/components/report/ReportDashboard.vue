@@ -67,7 +67,7 @@ import {
   getRowsTableByMonths,
   getAvgByMonths,
   generateDataDonnut,
-  generateDataBarchart,
+  generateDataBarchart
 } from '@/utils/dataProcessor'
 import dayjs from 'dayjs'
 
@@ -83,7 +83,7 @@ const monthNames = [
   'September',
   'October',
   'November',
-  'December',
+  'December'
 ]
 const columns = ['Years', 'Incidents', 'Tase', 'Percentage']
 const storeIncidents = useIncidentsStore()
@@ -99,13 +99,13 @@ const getYearsArray = () => {
 
 const totalIncYearsDonut = computed(() => generateDataDonnut(storeIncidents.totalIncidentsYears))
 const totalIncYearBarchart = computed(() =>
-  generateDataBarchart(storeIncidents.totalIncidentsYears),
+  generateDataBarchart(storeIncidents.totalIncidentsYears)
 )
 const rowsTableYears = computed(() => getRowsTableYears(storeIncidents.totalIncidentsYears))
 const totalBymonths = computed(() => getRowsTableByMonths(storeIncidents.allIncByMonths))
 const avgByMonths = computed(() => getAvgByMonths(storeIncidents.allIncByMonths))
 
-const setDataForYear = async (year) => {
+const setDataForYear = async year => {
   isLoading.value = true
   await storeIncidents.fetchIncAnual(year)
   await nextTick()

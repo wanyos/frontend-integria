@@ -6,9 +6,9 @@ export const useIncidentsStore = defineStore('incidents', () => {
   const allIncidentsYear = ref({ openInc: [], closeInc: [] })
   const incidentsRange = ref({
     current: { open: 0, close: 0, pending: 0, avg: { hour: 0, minute: 0 } },
-    lastYear: { open: 0, close: 0, pending: 0, avg: { hour: 0, minute: 0 } },
+    lastYear: { open: 0, close: 0, pending: 0, avg: { hour: 0, minute: 0 } }
   })
-  const errorMessage = ref('') 
+  const errorMessage = ref('')
   const openIncidentsGroup = ref([])
   const allIncidentsGroup = ref([])
   const allIncLocationRange = ref([])
@@ -19,23 +19,22 @@ export const useIncidentsStore = defineStore('incidents', () => {
   const totalIncidentsYears = ref([])
   const allIncByMonths = ref([])
 
-  const fetchIncAnual = async (yearValue) => {
+  const fetchIncAnual = async yearValue => {
     //dashboard
     try {
-       totalIncidentsYears.value = await ReportApi.getTotalIncYears(yearValue)
+      totalIncidentsYears.value = await ReportApi.getTotalIncYears(yearValue)
       allIncByMonths.value = await ReportApi.getIncBymonths()
-    } catch (error) { 
-       console.error('Error fetching incident anual:', error)
+    } catch (error) {
+      console.error('Error fetching incident anual:', error)
       errorMessage.value = error.message || 'Ocurrió un error al obtener los datos'
     }
-   
   }
 
-  const fetchIncYear = async (yearValue) => {
+  const fetchIncYear = async yearValue => {
     try {
       allIncidentsYear.value = await ReportApi.getAllIncidentsYear(yearValue)
-    } catch (error) { 
-       console.error('Error fetching incident year:', error)
+    } catch (error) {
+      console.error('Error fetching incident year:', error)
       errorMessage.value = error.message || 'Ocurrió un error al obtener los datos'
     }
   }
@@ -50,7 +49,7 @@ export const useIncidentsStore = defineStore('incidents', () => {
         allIncBasesRangeData,
         alIncParkingRangeData,
         allIncByHoursData,
-        allIncByWeekdaysData,
+        allIncByWeekdaysData
       ] = await Promise.all([
         ReportApi.getIncidentsRange(startDate, endDate),
         ReportApi.getOpenIncidentsGroup(),
@@ -59,7 +58,7 @@ export const useIncidentsStore = defineStore('incidents', () => {
         ReportApi.getIncBasesRange(startDate, endDate),
         ReportApi.getIncParkingRange(startDate, endDate),
         ReportApi.getIncByHours(startDate, endDate),
-        ReportApi.getIncByWeekdays(startDate, endDate),
+        ReportApi.getIncByWeekdays(startDate, endDate)
       ])
 
       // Asignar los datos a las referencias reactivas

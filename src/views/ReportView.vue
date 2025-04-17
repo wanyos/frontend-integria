@@ -77,7 +77,7 @@ import ReportDashboard from '@/components/report/ReportDashboard.vue'
 const MENU_OPTIONS = {
   Dashboard: 'Dashboard',
   Dates: 'Dates',
-  Years: 'Years',
+  Years: 'Years'
 }
 
 const selectedRange = ref(dayjs().format('DD MMM YYYY'))
@@ -108,25 +108,25 @@ const endYearsValues = computed(() => {
   return years
 })
 
-watch(initYear, (newValue) => {
+watch(initYear, newValue => {
   endYear.value = newValue - 1
 })
 
-watch(selectedOptions, (newValue) => {
+watch(selectedOptions, newValue => {
   if (newValue === 'Years') {
     initYear.value = dayjs().subtract(1, 'year').year()
   }
 })
 
-watch(selectedRange, (newValue) => {
+watch(selectedRange, newValue => {
   selectedRange.value = newValue
 })
 
-const updateCurrentDate = (newDate) => {
+const updateCurrentDate = newDate => {
   currentDate.value = newDate
 }
 
-const selectOptionMenu = (option) => {
+const selectOptionMenu = option => {
   selectedOptions.value = option
 }
 </script>

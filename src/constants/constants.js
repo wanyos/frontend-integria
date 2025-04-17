@@ -6,7 +6,7 @@ export const SELECT_PERIOD = [
   'Last 4 Months',
   'Last 7 Months',
   'This Year',
-  'Last Year',
+  'Last Year'
 ]
 
 export const LOCATION = [
@@ -15,7 +15,7 @@ export const LOCATION = [
   'Entrevias',
   'Sanchinarro',
   'La Elipa',
-  'Fuencarral',
+  'Fuencarral'
 ]
 
 export const BASES = [
@@ -25,7 +25,7 @@ export const BASES = [
   'Mediodia III',
   'Recuerdo',
   'Imperial',
-  'Vicalvaro',
+  'Vicalvaro'
 ]
 
 export const COLORS = [
@@ -36,7 +36,7 @@ export const COLORS = [
   '#F9E79F',
   '#F5CBA7',
   '#D7BDE2',
-  '#AED6F1',
+  '#AED6F1'
 ]
 
 export const COLORS1 = [
@@ -52,7 +52,7 @@ export const COLORS1 = [
   '#FFDFBA', // Naranja pastel
   '#FFFFBA', // Amarillo pastel
   '#BAFFC9', // Verde pastel
-  '#BAE1FF', // Azul pastel claro
+  '#BAE1FF' // Azul pastel claro
 ]
 
 export const COLORS2 = [
@@ -64,5 +64,5 @@ export const COLORS2 = [
   '#D7BDE2', // Lila claro
   '#AED6F1', // Azul pastel
   '#A3E4D7', // Verde pastel
-  '#F5CBA7', // Naranja pastel
+  '#F5CBA7' // Naranja pastel
 ]

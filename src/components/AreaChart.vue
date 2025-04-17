@@ -19,23 +19,23 @@ import { useChartUtils } from '@/composables/useChartUtils'
 const props = defineProps({
   id: {
     type: String,
-    default: 'areachart',
+    default: 'areachart'
   },
   title: {
     type: String,
-    default: '',
+    default: ''
   },
   subtitle: {
     type: [String, Number],
-    default: '',
+    default: ''
   },
   color: {
-    type: String,
+    type: String
   },
   incidents: {
     type: Array,
-    default: () => [],
-  },
+    default: () => []
+  }
 })
 
 const { chartRef, handleMouseLeave } = useChartUtils()
@@ -68,8 +68,8 @@ const chartOptions = ref({
     type: 'area',
     zoom: {
       enabled: false,
-      autoScaleYaxis: true,
-    },
+      autoScaleYaxis: true
+    }
   },
   title: {
     text: `${props.title}`,
@@ -77,8 +77,8 @@ const chartOptions = ref({
     style: {
       fontSize: '16px',
       fontWeight: 'normal',
-      color: '#1a1a1a',
-    },
+      color: '#1a1a1a'
+    }
   },
   subtitle: {
     text: `Year: ${props.subtitle}`,
@@ -86,16 +86,16 @@ const chartOptions = ref({
     style: {
       fontSize: '14px',
       fontWeight: 'normal',
-      color: '#1a1a1a',
-    },
+      color: '#1a1a1a'
+    }
   },
   stroke: {
     curve: 'smooth',
     width: 1,
-    colors: [`${props.color}`],
+    colors: [`${props.color}`]
   },
   dataLabels: {
-    enabled: false,
+    enabled: false
   },
   markers: {
     style: 'hollow',
@@ -104,8 +104,8 @@ const chartOptions = ref({
     strokeColors: '#fff', // Color del borde del punto
     strokeWidth: 2, // Ancho del borde
     hover: {
-      size: 6, // Tamaño del punto al pasar el cursor
-    },
+      size: 6 // Tamaño del punto al pasar el cursor
+    }
   },
   xaxis: {
     type: 'category',
@@ -121,16 +121,16 @@ const chartOptions = ref({
       'September',
       'October',
       'November',
-      'December',
-    ],
+      'December'
+    ]
   },
   tooltip: {
     // shared: true,
     // intersect: false,
     marker: {
       show: true, // Muestra el marcador en el tooltip
-      fillColors: [`${props.color}`], // Color del marcador en el tooltip
-    },
+      fillColors: [`${props.color}`] // Color del marcador en el tooltip
+    }
   },
   fill: {
     type: 'gradient',
@@ -143,50 +143,50 @@ const chartOptions = ref({
         {
           offset: 0,
           color: `${props.color}`,
-          opacity: 0.5,
-        },
-      ],
-    },
-  },
+          opacity: 0.5
+        }
+      ]
+    }
+  }
 })
 
 watch(
   () => props.incidents,
-  async (newIncidents) => {
+  async newIncidents => {
     // seriesArea.value = generateAreapData(newIncidents)
     seriesArea.value = newIncidents
     await nextTick()
     chartOptions.value = {
       ...chartOptions.value,
       title: {
-        text: `${props.title}`,
+        text: `${props.title}`
       },
       subtitle: {
-        text: `Year: ${props.subtitle}`,
+        text: `Year: ${props.subtitle}`
       },
       stroke: {
-        colors: [`${props.color}`],
+        colors: [`${props.color}`]
       },
       markers: {
-        colors: [`${props.color}`],
+        colors: [`${props.color}`]
       },
       tooltip: {
         marker: {
-          fillColors: [`${props.color}`],
-        },
+          fillColors: [`${props.color}`]
+        }
       },
       fill: {
         gradient: {
           colorStops: [
             {
-              color: `${props.color}`,
-            },
-          ],
-        },
-      },
+              color: `${props.color}`
+            }
+          ]
+        }
+      }
     }
   },
-  { immediate: true },
+  { immediate: true }
 )
 </script>
 

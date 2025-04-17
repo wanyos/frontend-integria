@@ -128,12 +128,12 @@ const yearsArray = ref([])
 const props = defineProps({
   initYear: {
     type: Number,
-    required: true,
+    required: true
   },
   endYear: {
     type: Number,
-    required: true,
-  },
+    required: true
+  }
 })
 
 const getYearsArray = () => {
@@ -143,7 +143,7 @@ const getYearsArray = () => {
   }
 }
 
-const setDataInitYear = async (year) => {
+const setDataInitYear = async year => {
   isLoadingInit.value = true
   await storeIncidents.fetchIncYear(year)
   openInitYearHeat.value = generateHeatmapData(storeIncidents.openIncidentsYear)
@@ -154,7 +154,7 @@ const setDataInitYear = async (year) => {
   isLoadingInit.value = false
 }
 
-const setDataEndYear = async (year) => {
+const setDataEndYear = async year => {
   isLoadingEnd.value = true
   await storeIncidents.fetchIncYear(year)
   openEndYearHeat.value = generateHeatmapData(storeIncidents.openIncidentsYear)
@@ -302,16 +302,16 @@ const setDataEndYear = async (year) => {
 
 watch(
   () => props.initYear,
-  (newValue) => {
+  newValue => {
     setDataInitYear(newValue)
-  },
+  }
 )
 
 watch(
   () => props.endYear,
-  (newValue) => {
+  newValue => {
     setDataEndYear(newValue)
-  },
+  }
 )
 
 onMounted(async () => {

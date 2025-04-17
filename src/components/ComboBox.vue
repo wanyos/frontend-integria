@@ -47,22 +47,22 @@ import {
   ComboboxItemIndicator,
   ComboboxRoot,
   ComboboxTrigger,
-  ComboboxViewport,
+  ComboboxViewport
 } from 'radix-vue'
 
 const props = defineProps({
   options: {
     type: Array,
-    default: () => [],
+    default: () => []
   },
   customWidth: {
     type: String,
-    default: '100px',
+    default: '100px'
   },
   iconName: {
     type: String,
-    default: '',
-  },
+    default: ''
+  }
 })
 
 const selectedValue = ref('')

@@ -34,20 +34,20 @@
 const props = defineProps({
   title: {
     type: String,
-    default: '',
+    default: ''
   },
   firstColumn: {
     type: Array,
-    default: () => [],
+    default: () => []
   },
   dataColumn: {
     type: Array,
-    default: () => [],
+    default: () => []
   },
   dataRow: {
     type: Array,
-    default: () => [],
-  },
+    default: () => []
+  }
 })
 
 const getColorClass = (key, value) => {

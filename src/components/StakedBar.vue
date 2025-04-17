@@ -17,12 +17,12 @@ import { useChartUtils } from '@/composables/useChartUtils'
 const props = defineProps({
   allIncidentsGroup: {
     type: Object,
-    default: () => {},
+    default: () => {}
   },
   subtitle: {
     type: String,
-    default: '',
-  },
+    default: ''
+  }
 })
 
 const groups = [
@@ -32,7 +32,7 @@ const groups = [
   'Ciberseguridad',
   'Apl.Horizontales',
   'Apl.Negocio',
-  'Tec.Externo',
+  'Tec.Externo'
 ]
 
 const { chartRef, handleMouseLeave } = useChartUtils()
@@ -52,7 +52,7 @@ const seriesData = ref([])
 const chartOptions = ref({
   chart: {
     type: 'bar',
-    stacked: true,
+    stacked: true
   },
   plotOptions: {
     bar: {
@@ -68,23 +68,23 @@ const chartOptions = ref({
           offsetX: 0,
           style: {
             fontSize: '14px',
-            fontWeight: 500,
-          },
-        },
-      },
-    },
+            fontWeight: 500
+          }
+        }
+      }
+    }
   },
   stroke: {
     width: 1,
-    colors: ['#fff'],
+    colors: ['#fff']
   },
   title: {
     text: 'Incidents by group and status',
     style: {
       fontSize: '16px',
       fontWeight: 'normal',
-      color: '#1a1a1a',
-    },
+      color: '#1a1a1a'
+    }
   },
   subtitle: {
     text: 'no data...',
@@ -92,47 +92,47 @@ const chartOptions = ref({
     style: {
       fontSize: '14px',
       fontWeight: 'normal',
-      color: '#666',
-    },
+      color: '#666'
+    }
   },
   xaxis: {
     type: 'logarithmic',
     categories: groups,
     labels: {
-      show: false, // Oculta los labels del eje x
+      show: false // Oculta los labels del eje x
     },
     axisBorder: {
-      show: false,
+      show: false
     },
     axisTicks: {
-      show: false,
-    },
+      show: false
+    }
   },
   yaxis: {
     min: 0, // Establece un valor mínimo para el eje y
     forceNiceScale: true, // Fuerza una escala agradable
     title: {
-      text: undefined,
+      text: undefined
     },
     axisBorder: {
-      show: false,
+      show: false
     },
     axisTicks: {
-      show: false,
+      show: false
     },
     labels: {
       style: {
-        fontSize: '12px',
-      },
-    },
+        fontSize: '12px'
+      }
+    }
   },
   tooltip: {
     enabled: false,
     y: {
       formatter: function (val) {
         return val + 'K'
-      },
-    },
+      }
+    }
   },
   grid: {
     show: false,
@@ -140,38 +140,38 @@ const chartOptions = ref({
       top: 10,
       right: 50,
       bottom: 0,
-      left: 10,
-    },
+      left: 10
+    }
   },
   fill: {
     colors: ['#6cbc6c', '#ee7e7e'],
-    opacity: 1,
+    opacity: 1
   },
   legend: {
     position: 'bottom',
     horizontalAlign: 'center',
     offsetX: 40,
     markers: {
-      colors: ['#6cbc6c', '#ee7e7e'],
-    },
-  },
+      colors: ['#6cbc6c', '#ee7e7e']
+    }
+  }
 })
 
 watch(
   () => props.allIncidentsGroup,
-  async (newIncidents) => {
+  async newIncidents => {
     seriesData.value = newIncidents.incidents
     await nextTick()
 
     chartOptions.value = {
       ...chartOptions.value,
       subtitle: {
-        text: `Year: ${props.subtitle}`,
-      },
+        text: `Year: ${props.subtitle}`
+      }
     }
   },
 
-  { immediate: true },
+  { immediate: true }
 )
 </script>
 

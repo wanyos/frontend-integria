@@ -10,16 +10,16 @@ import { computed } from 'vue'
 const props = defineProps({
   label: {
     type: [String, Number],
-    required: true,
+    required: true
   },
   mainColor: {
     type: [String, Array, Object],
-    default: null,
+    default: null
   },
   name: {
     type: String,
-    default: 'success',
-  },
+    default: 'success'
+  }
 })
 
 const getBackground = computed(() => {

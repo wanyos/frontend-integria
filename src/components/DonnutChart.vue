@@ -17,32 +17,32 @@ import { COLORS } from '@/constants/constants.js'
 const props = defineProps({
   id: {
     type: String,
-    default: 'donut',
+    default: 'donut'
   },
   incidents: {
     type: Object,
-    default: () => {},
+    default: () => {}
   },
   title: {
     type: String,
-    default: '',
+    default: ''
   },
   subtitle: {
     type: String,
-    default: '',
+    default: ''
   },
   labels: {
     type: Array,
-    default: () => [],
+    default: () => []
   },
   data: {
     type: Array,
-    default: () => [],
+    default: () => []
   },
   options: {
     type: Object,
-    default: () => ({}),
-  },
+    default: () => ({})
+  }
 })
 
 // const series = ref([14, 32, 12, 9, 5, 23])
@@ -52,7 +52,7 @@ const series = ref(props.data)
 const chartOptions = ref({
   chart: {
     id: `${props.id}`,
-    type: 'donut',
+    type: 'donut'
   },
   labels: props.labels,
   colors: props.options.colors || COLORS,
@@ -61,8 +61,8 @@ const chartOptions = ref({
       top: 5,
       right: 0,
       bottom: 0,
-      left: 0,
-    },
+      left: 0
+    }
   },
   plotOptions: {
     pie: {
@@ -78,11 +78,11 @@ const chartOptions = ref({
             formatter: function (w) {
               const total = w.globals.seriesTotals.reduce((a, b) => a + b, 0)
               return `${total} Inc`
-            },
-          },
-        },
-      },
-    },
+            }
+          }
+        }
+      }
+    }
   },
   // dataLabels: {
   //   enabled: true,
@@ -98,11 +98,11 @@ const chartOptions = ref({
     style: {
       fontSize: '12px',
       fontWeight: 'normal',
-      colors: ['#1a1a1a'],
+      colors: ['#1a1a1a']
     },
     dropShadow: {
-      enabled: false,
-    },
+      enabled: false
+    }
   },
   title: {
     text: `${props.title}`,
@@ -110,17 +110,17 @@ const chartOptions = ref({
     style: {
       fontSize: '16px',
       fontWeight: 'normal',
-      color: '#1a1a1a',
-    },
+      color: '#1a1a1a'
+    }
   },
   subtitle: {
-    text: `no data...`,
+    text: 'no data...',
     align: 'left',
     style: {
       fontSize: '14px',
       fontWeight: 'normal',
-      color: '#666',
-    },
+      color: '#666'
+    }
   },
   //   fill: {
   //     colors: ['#08B545', '#CEF0DA'], // Colores predeterminados
@@ -131,9 +131,9 @@ const chartOptions = ref({
   states: {
     hover: {
       filter: {
-        type: 'none',
-      },
-    },
+        type: 'none'
+      }
+    }
   },
   tooltip: {
     enabled: false,
@@ -141,31 +141,31 @@ const chartOptions = ref({
       fontSize: '12px',
       fontFamily: 'Arial, sans-serif',
       fontWeight: 'normal',
-      colors: ['#1a1a1a'],
-    },
+      colors: ['#1a1a1a']
+    }
   },
   legend: {
-    show: true,
-  },
+    show: true
+  }
 })
 
 const defaulValues = [0, 0, 0, 0, 0, 0]
 
 watch(
   () => props.incidents,
-  async (newIncidents) => {
+  async newIncidents => {
     const { labels, values } = newIncidents
     await nextTick()
     chartOptions.value = {
       ...chartOptions.value,
       subtitle: {
-        text: `${String(props.subtitle)}`,
+        text: `${String(props.subtitle)}`
       },
-      labels: [...labels],
+      labels: [...labels]
     }
     series.value = values.length ? [...values] : defaulValues
   },
-  { immediate: true },
+  { immediate: true }
 )
 </script>
 

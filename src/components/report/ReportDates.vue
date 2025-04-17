@@ -127,7 +127,7 @@ import {
   generateDataStakedBar,
   generateDataDonnut,
   generateDataGradient,
-  generateDataBarchart,
+  generateDataBarchart
 } from '@/utils/dataProcessor.js'
 
 const storeIncidents = useIncidentsStore()
@@ -143,12 +143,12 @@ const emit = defineEmits(['update:currentDate'])
 const props = defineProps({
   selectedRange: {
     type: String,
-    required: true,
+    required: true
   },
   initYear: {
     type: Number,
-    required: true,
-  },
+    required: true
+  }
 })
 
 const getDataStore = async (selectedRange, initYear) => {
@@ -166,25 +166,25 @@ const getDataStore = async (selectedRange, initYear) => {
 const getAvgDayClose = computed(() => calculateAvgDay(storeIncidents.currentIncidentsRange.close))
 const getAvgDayOpen = computed(() => calculateAvgDay(storeIncidents.currentIncidentsRange.open))
 const distributionData = computed(() =>
-  generateDataScatterGroup(storeIncidents.allOpenIncidentsGroup),
+  generateDataScatterGroup(storeIncidents.allOpenIncidentsGroup)
 )
 const allIncidentsGroup = computed(() =>
-  generateDataStakedBar(storeIncidents.allIncidentsGroupData),
+  generateDataStakedBar(storeIncidents.allIncidentsGroupData)
 )
 const allIncLocationRange = computed(() =>
-  generateDataDonnut(storeIncidents.allIncLocationRangeData),
+  generateDataDonnut(storeIncidents.allIncLocationRangeData)
 )
 const allIncBasesRange = computed(() => generateDataDonnut(storeIncidents.allIncBasesRange))
 const allIncParkingRange = computed(() => generateDataDonnut(storeIncidents.allIncParkingRangeData))
 const allIncByHours = computed(() => generateDataGradient(storeIncidents.allIncByHoursRangeData))
 const allIncByWekdays = computed(() =>
-  generateDataBarchart(storeIncidents.allIncByWeekdaysRangeData),
+  generateDataBarchart(storeIncidents.allIncByWeekdaysRangeData)
 )
 
 const getPercentOpen = computed(() => {
   return calculatePercentage(
     storeIncidents.currentIncidentsRange.open,
-    storeIncidents.lastYearIncidentsRange.open,
+    storeIncidents.lastYearIncidentsRange.open
   )
 })
 
@@ -201,14 +201,14 @@ const getAvgPercentDayOpen = computed(() => {
 const getPercentClose = computed(() => {
   return calculatePercentage(
     storeIncidents.currentIncidentsRange.close,
-    storeIncidents.lastYearIncidentsRange.close,
+    storeIncidents.lastYearIncidentsRange.close
   )
 })
 
 const getPercentPending = computed(() => {
   return calculatePercentage(
     storeIncidents.currentIncidentsRange.pending,
-    storeIncidents.lastYearIncidentsRange.pending,
+    storeIncidents.lastYearIncidentsRange.pending
   )
 })
 
@@ -241,10 +241,10 @@ watch(
   () => [props.selectedRange, props.initYear],
   ([newValueRange, newValueYear]) => {
     getDataStore(newValueRange, newValueYear)
-  },
+  }
 )
 
-watch(getCurrentDate, (newValue) => {
+watch(getCurrentDate, newValue => {
   emit('update:currentDate', newValue)
 })
 
@@ -263,7 +263,7 @@ const calculatePercentage = (current, lastYear) => {
 }
 
 // calculate avg days this dates and last year date
-const calculateAvgDay = (totalInc) => {
+const calculateAvgDay = totalInc => {
   let formateResult = 0
   const start = dayjs(startDateAvg)
   const end = dayjs(endDateAvg)

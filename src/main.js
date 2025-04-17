@@ -53,7 +53,7 @@ app.use(router)
 app.component('v-icon', OhVueIcon)
 app.use(VueCookies, {
   expires: '1d',
-  path: '/',
+  path: '/'
 })
 
 // Opciones globales para los toasts
@@ -62,7 +62,7 @@ const toastOptions = {
   position: 'top-right', // Posición de los toasts
   pauseOnHover: true, // Pausar al pasar el mouse
   draggable: true, // Permitir arrastrar los toasts
-  theme: 'dark', // Tema: light, dark o colored
+  theme: 'dark' // Tema: light, dark o colored
 }
 
 app.use(Vue3Toastify, toastOptions)

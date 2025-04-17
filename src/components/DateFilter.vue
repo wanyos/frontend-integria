@@ -18,7 +18,7 @@ import DatePicker from 'vuejs3-datepicker'
 
 const emit = defineEmits(['setDate'])
 
-const selectDate = (date) => {
+const selectDate = date => {
   emit('setDate', date)
 }
 </script>

@@ -21,7 +21,7 @@ const props = defineProps({
   title: { type: String, default: '' },
   file: { type: Object, default: () => ({}) },
   icon: { type: String, default: '' },
-  size: { type: Number, default: 0 },
+  size: { type: Number, default: 0 }
 })
 
 const emit = defineEmits(['drag-start', 'drag-end'])
@@ -37,7 +37,7 @@ const formattedSize = computed(() => {
   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(2))} ${sizes[i]}`
 })
 
-const handleDragStart = (event) => {
+const handleDragStart = event => {
   // if (!props.file?.content) {
   //   event.preventDefault();
   //   return;
@@ -53,17 +53,17 @@ const handleDragStart = (event) => {
 
   emit('drag-start', {
     nativeEvent: event,
-    file: props.file,
+    file: props.file
   })
 }
 
-const handleDragEnd = (event) => {
+const handleDragEnd = event => {
   event.preventDefault()
   event.dataTransfer.clearData()
   emit('drag-end')
 }
 
-const handleDrag = (event) => {
+const handleDrag = event => {
   event.preventDefault()
 }
 </script>

@@ -28,24 +28,24 @@ import 'vue-loading-overlay/dist/css/index.css'
 const props = defineProps({
   id: {
     type: String,
-    default: 'heatmap',
+    default: 'heatmap'
   },
   title: {
     type: String,
-    default: '',
+    default: ''
   },
   subtitle: {
     type: [String, Number],
-    default: '',
+    default: ''
   },
   colors: {
     type: Array,
-    default: () => ['#E3F2FD', '#90CAF9', '#42A5F5', '#1565C0'],
+    default: () => ['#E3F2FD', '#90CAF9', '#42A5F5', '#1565C0']
   },
   incidents: {
     type: Array,
-    default: () => [],
-  },
+    default: () => []
+  }
 })
 
 const { chartRef, handleMouseLeave } = useChartUtils()
@@ -60,16 +60,16 @@ const chartOptionsHeat = ref({
   chart: {
     type: 'heatmap',
     toolbar: {
-      show: true,
-    },
+      show: true
+    }
   },
   grid: {
     padding: {
       top: 0,
       right: 20,
       bottom: 0,
-      left: 20,
-    },
+      left: 20
+    }
   },
   plotOptions: {
     heatmap: {
@@ -83,10 +83,10 @@ const chartOptionsHeat = ref({
           { from: 21, to: 40, color: props.colors[1], name: '21-40' },
           { from: 41, to: 60, color: props.colors[2], name: '41-60' },
           { from: 61, to: 100, color: props.colors[3], name: '61-100' },
-          { from: 101, to: 400, color: props.colors[4], name: '+100' },
-        ],
-      },
-    },
+          { from: 101, to: 400, color: props.colors[4], name: '+100' }
+        ]
+      }
+    }
   },
   xaxis: {
     type: 'category',
@@ -95,24 +95,24 @@ const chartOptionsHeat = ref({
       show: true,
       style: {
         fontSize: '12px',
-        colors: '#1a1a1a',
-      },
+        colors: '#1a1a1a'
+      }
     },
     tooltip: {
-      enabled: false, // Desactiva la etiqueta adicional del eje X
-    },
+      enabled: false // Desactiva la etiqueta adicional del eje X
+    }
   },
   yaxis: {
     labels: {
       show: true,
       style: {
         fontSize: '12px',
-        colors: '#1a1a1a',
-      },
-    },
+        colors: '#1a1a1a'
+      }
+    }
   },
   dataLabels: {
-    enabled: false,
+    enabled: false
   },
   colors: ['#F44336'],
   title: {
@@ -121,8 +121,8 @@ const chartOptionsHeat = ref({
     style: {
       fontSize: '16px',
       fontWeight: 'normal',
-      color: '#1a1a1a',
-    },
+      color: '#1a1a1a'
+    }
   },
   subtitle: {
     text: `Year: ${props.subtitle}`,
@@ -130,11 +130,11 @@ const chartOptionsHeat = ref({
     style: {
       fontSize: '14px',
       fontWeight: 'normal',
-      color: '#1a1a1a',
-    },
+      color: '#1a1a1a'
+    }
   },
   legend: {
-    position: 'bottom',
+    position: 'bottom'
   },
   tooltip: {
     enabled: true,
@@ -147,23 +147,23 @@ const chartOptionsHeat = ref({
         // Obtén el mes desde el nombre de la serie
         const month = w.config.series[seriesIndex].name
         return `${month} ${value}` // Ejemplo: "Apr 17"
-      },
+      }
     },
     y: {
-      formatter: (val) => `Inc: ${val}`,
+      formatter: val => `Inc: ${val}`,
       title: {
-        formatter: () => '', // No muestra título para "y"
-      },
+        formatter: () => '' // No muestra título para "y"
+      }
     },
     marker: {
-      show: true,
-    },
-  },
+      show: true
+    }
+  }
 })
 
 watch(
   () => props.incidents,
-  async (newIncidents) => {
+  async newIncidents => {
     isLoading.value = true
     seriesHeat.value = newIncidents
     await nextTick()
@@ -171,12 +171,12 @@ watch(
     chartOptionsHeat.value = {
       ...chartOptionsHeat.value,
       subtitle: {
-        text: `Year: ${props.subtitle}`,
-      },
+        text: `Year: ${props.subtitle}`
+      }
     }
     isLoading.value = false
   },
-  { immediate: true },
+  { immediate: true }
 )
 </script>
 <style lang="css" scoped>

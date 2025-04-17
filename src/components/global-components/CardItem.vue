@@ -26,20 +26,20 @@ const handleClick = () => {
 const props = defineProps({
   title: {
     type: String,
-    default: '',
+    default: ''
   },
   count: {
     type: [String, Number],
-    default: '',
+    default: ''
   },
   emailsTo: {
     type: Array,
-    default: () => [],
+    default: () => []
   },
   emailsCc: {
     type: Array,
-    default: () => [],
-  },
+    default: () => []
+  }
 })
 </script>
 

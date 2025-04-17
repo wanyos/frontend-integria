@@ -18,7 +18,7 @@ const orderServidesk = [
   'Grupo',
   'Tecnico_Asignado',
   'Descripcion_Tipo',
-  'Tipo_Inc',
+  'Tipo_Inc'
 ]
 
 // Num_Incidencia Estado FechaApertura FechaCierre Usuario Extension Resumen
@@ -35,22 +35,22 @@ const orderIntegria = [
   'Tecnico_Asignado',
   'Descripcion_Tipo',
   'Ultima_actuacion',
-  'Localizacion',
+  'Localizacion'
 ]
 
 export const createFileIss = async (servideskInc, openDate, closeDate) => {
   const result = []
 
-  Object.keys(servideskInc).forEach((key) => {
+  Object.keys(servideskInc).forEach(key => {
     const incidents = servideskInc[key]
     if (incidents) {
       const keyObject = {
         tratadas: [],
         cerradas: [],
-        pendientes: [],
+        pendientes: []
       }
 
-      incidents.forEach((incident) => {
+      incidents.forEach(incident => {
         const fechaApertura = dayjs(incident.FechaApertura)
         const fechaCierre = dayjs(incident.FechaCierre)
 
@@ -93,7 +93,7 @@ export const createFileIss = async (servideskInc, openDate, closeDate) => {
     filesIss.push({
       name: filePath.name,
       content: filePath.content,
-      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     })
   }
 
@@ -108,16 +108,16 @@ export const createFileIss = async (servideskInc, openDate, closeDate) => {
 
 export const createFileIntegria = async (integriaInc, openDate, closeDate) => {
   const result = []
-  Object.keys(integriaInc).forEach((item) => {
+  Object.keys(integriaInc).forEach(item => {
     const incidents = integriaInc[item]
 
     const keyObject = {
       tratadas: [],
       cerradas: [],
-      pendientes: [],
+      pendientes: []
     }
 
-    incidents.forEach((inc) => {
+    incidents.forEach(inc => {
       const fechaApertura = dayjs(inc.FechaApertura)
       const fechaCierre = dayjs(inc.FechaCierre)
 
@@ -156,7 +156,7 @@ export const createFileIntegria = async (integriaInc, openDate, closeDate) => {
     filesIntegria.push({
       name: file.name,
       content: file.content,
-      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     })
   }
   return filesIntegria

@@ -17,20 +17,20 @@ import { useChartUtils } from '@/composables/useChartUtils'
 const props = defineProps({
   id: {
     type: String,
-    default: 'donut',
+    default: 'donut'
   },
   title: {
     type: String,
-    default: '',
+    default: ''
   },
   subtitle: {
     type: String,
-    default: '',
+    default: ''
   },
   incidents: {
     type: Object,
-    default: () => {},
-  },
+    default: () => {}
+  }
 })
 
 const { chartRef } = useChartUtils()
@@ -48,8 +48,8 @@ const { chartRef } = useChartUtils()
 const series = ref([
   {
     name: 'Total Inc',
-    data: [],
-  },
+    data: []
+  }
 ])
 
 const chartOptions = ref({
@@ -57,11 +57,11 @@ const chartOptions = ref({
     id: `${props.id}`,
     type: 'line',
     zoom: {
-      enabled: false,
+      enabled: false
     },
     toolbar: {
-      show: true,
-    },
+      show: true
+    }
   },
   title: {
     text: `${props.title}`,
@@ -69,8 +69,8 @@ const chartOptions = ref({
     style: {
       fontSize: '16px',
       fontWeight: 'normal',
-      color: '#1a1a1a',
-    },
+      color: '#1a1a1a'
+    }
   },
   subtitle: {
     text: `no data...`,
@@ -78,15 +78,15 @@ const chartOptions = ref({
     style: {
       fontSize: '14px',
       fontWeight: 'normal',
-      color: '#666',
-    },
+      color: '#666'
+    }
   },
   //   forecastDataPoints: {
   //     count: 7
   //   },
   stroke: {
     width: 7,
-    curve: 'smooth',
+    curve: 'smooth'
   },
   colors: ['#08B545'],
   markers: {
@@ -95,8 +95,8 @@ const chartOptions = ref({
     strokeColors: ['#08B545'],
     strokeWidth: 4,
     hover: {
-      size: 7,
-    },
+      size: 7
+    }
   },
   xaxis: {
     type: 'category',
@@ -108,9 +108,9 @@ const chartOptions = ref({
       hideOverlappingLabels: false, // Permite que las etiquetas se solapen si es necesario
       style: {
         fontSize: '12px',
-        colors: ['#1a1a1a'],
-      },
-    },
+        colors: ['#1a1a1a']
+      }
+    }
   },
   yaxis: {
     min: 0,
@@ -122,17 +122,17 @@ const chartOptions = ref({
       },
       style: {
         fontSize: '12px',
-        colors: ['#1a1a1a'],
+        colors: ['#1a1a1a']
       },
-      offsetX: 10,
-    },
+      offsetX: 10
+    }
   },
   grid: {
     padding: {
       top: 10,
       left: 50,
-      right: 50,
-    },
+      right: 50
+    }
   },
   fill: {
     type: 'gradient',
@@ -143,31 +143,31 @@ const chartOptions = ref({
       type: 'horizontal',
       opacityFrom: 1,
       opacityTo: 1,
-      stops: [0, 100, 100],
-    },
-  },
+      stops: [0, 100, 100]
+    }
+  }
 })
 
 const defaulValues = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 watch(
   () => props.incidents,
-  async (newIncidents) => {
+  async newIncidents => {
     const { values } = newIncidents
     await nextTick()
 
     chartOptions.value = {
       ...chartOptions.value,
       subtitle: {
-        text: `${String(props.subtitle)}`,
+        text: `${String(props.subtitle)}`
       },
       yaxis: {
-        max: values.length ? Math.ceil(Math.max(...values)) + 50 : 100,
-      },
+        max: values.length ? Math.ceil(Math.max(...values)) + 50 : 100
+      }
     }
     series.value[0].data = values.length ? [...values] : defaulValues
   },
-  { immediate: true },
+  { immediate: true }
 )
 </script>
 
