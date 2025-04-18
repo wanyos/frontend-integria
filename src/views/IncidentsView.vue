@@ -112,6 +112,7 @@ import Loading from 'vue-loading-overlay'
 import 'vue-loading-overlay/dist/css/index.css'
 import { createFileIss, createFileIntegria } from '../utils/create_files.js'
 import { EMAIL_LIST } from '@/constants/emailList.js'
+import { stringifyQuery } from 'vue-router'
 
 const columnsServidesk = ['Location', 'Incidents']
 const columnsIntegriaTec = ['Type', 'Incidents']
@@ -268,6 +269,7 @@ const handleSendGmail = async item => {
 
   try {
     emailResponses.value[item.resolutor] = { status: 'sending', message: 'Enviando...' }
+
     const res = await fetch('http://localhost:8022/send-gmail', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: token.value },
@@ -275,17 +277,13 @@ const handleSendGmail = async item => {
     })
 
     const result = await res.text()
-
+    const resultObj = JSON.parse(result)
     emailResponses.value[item.resolutor] = {
-      status: res.ok ? 'success' : 'error',
-      statusCode: res.status,
-      statusText: res.statusText,
-      message: result,
-      ok: res.ok,
-      timestamp: new Date().toISOString()
+      resolutor: item.resolutor,
+      status: 'Success',
+      ...resultObj
     }
-
-    console.log('result', result)
+    console.log('result', resultObj)
   } catch (error) {
     console.error('Error sending email:', error.message)
     emailResponses.value[item.resolutor] = {
