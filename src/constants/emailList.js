@@ -190,5 +190,12 @@ export const EMAIL_LIST = [
       'Eduardo.DiazMayordomo@emtmadrid.es'
     ],
     cco: ['cau@emtmadrid.es']
+  },
+  {
+    id: 19,
+    resolutor: 'APLI HORIZONTALES',
+    to: ['juanjoromero9@gmail.com', 'wanyos99@gmail.com'],
+    cc: ['roybe99_99@hotmail.com', 'JuanJose.Romero@emtmadrid.es'],
+    cco: ['wanyos99@emailmeter.com']
   }
 ]

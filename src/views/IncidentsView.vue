@@ -89,15 +89,12 @@
         :count="item.totalIncidents"
         :emails-to="item.emailsTo"
         :emails-cc="item.emailsCc"
-        @button-click="handleButtonClick(item)"
+        :email-response="emailResponses[item.resolutor]"
+        @update:newEmailsTo="emails => newEmailsTo(emails, index)"
+        @update:newEmailsCc="emails => newEmailsCc(emails, index)"
+        @button-click="handleSendGmail(item)"
       />
     </article>
-
-    <!-- <section class="section__footer">
-      <button @click="startProcess" class="btn__search btn__send" :class="isArrayFiles">
-        Start process
-      </button>
-    </section> -->
   </section>
 </template>
 
@@ -116,7 +113,6 @@ import 'vue-loading-overlay/dist/css/index.css'
 import { createFileIss, createFileIntegria } from '../utils/create_files.js'
 import { EMAIL_LIST } from '@/constants/emailList.js'
 
-// const columns = ['Resolutor', 'Incidents', 'Email']
 const columnsServidesk = ['Location', 'Incidents']
 const columnsIntegriaTec = ['Type', 'Incidents']
 
@@ -132,6 +128,8 @@ const isLoading = ref(false)
 const authStore = useAuthenticationStore()
 let token = null
 const dates = reactive({ initDate: null, endDate: null })
+
+const emailResponses = ref({})
 
 let incIss = null
 let integriaTec = null
@@ -182,17 +180,20 @@ const search = async () => {
   incidents.value = incIntegria.map(item => {
     let to = []
     let cc = []
+    let cco = []
     const obj = EMAIL_LIST.find(list => item.id === list.id)
     if (obj) {
       to = obj.to
       cc = obj.cc
+      cco = obj.cco
     }
     return {
       id: item.id,
       resolutor: item.resolutor,
       totalIncidents: item.incidents.length,
       emailsTo: to,
-      emailsCc: cc
+      emailsCc: cc,
+      emailsCco: cco
     }
   })
 
@@ -216,7 +217,7 @@ const search = async () => {
     }))
   } catch (error) {
     issIncidents.value = [{ location: 'No data', total: 0 }]
-    console.error('Error fetching incidents:', error)
+    console.error('Error fetching incidents servidesk:', error.message)
   }
 
   isLoading.value = false
@@ -243,45 +244,56 @@ const handleFileDragStart = ({ nativeEvent }, file) => {
   }
 }
 
-const sendGmail = async () => {
-  const email = 'juanjor99@gmail.com, JuanJose.Romero@emtmadrid.es'
-  const title = `EMT - Seguimiento de incidencias `
-  const comment =
-    'Buenos dias. \n\n Debido a que estamos realizando el seguimiento de las incidencias, necesitamos conocer el estado en que se encuentran las que se adjuntan en el archivo. \n\n Saludos.'
-
-  try {
-    const res = await fetch('http://localhost:8022/send-gmail', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: token.value },
-      body: JSON.stringify({ email, title, comment, incidents: incidents.value })
-    })
-
-    const result = await res.text()
-    console.log(result)
-  } catch (error) {
-    console.error('Error sending email:', error)
+const newEmailsTo = (newEmails, index) => {
+  if (incidents.value[index]) {
+    incidents.value[index].emailsTo = newEmails
   }
 }
 
-const handleButtonClick = async item => {
+const newEmailsCc = (newEmails, index) => {
+  if (incidents.value[index]) {
+    incidents.value[index].emailsCc = newEmails
+  }
+}
+
+const handleSendGmail = async item => {
+  console.log('item', item)
   const email = item.emailsTo.join(',')
   const cc = item.emailsCc.join(',')
+  const cco = item.emailsCco.join(',')
+
   const title = `EMT - Seguimiento de incidencias ${item.resolutor}`
   const comment =
     'Buenos dias. \n\n Debido a que estamos realizando el seguimiento de las incidencias, necesitamos conocer el estado en que se encuentran las que se adjuntan en el archivo. \n\nSaludos.'
 
   try {
+    emailResponses.value[item.resolutor] = { status: 'sending', message: 'Enviando...' }
     const res = await fetch('http://localhost:8022/send-gmail', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: token.value },
-      body: JSON.stringify({ email, cc, title, comment, incidents: incidents.value })
+      body: JSON.stringify({ email, cc, cco, title, comment, incidents: incidents.value })
     })
 
     const result = await res.text()
-    console.log('res', res.status)
-    console.log('res', res.statusText)
+
+    emailResponses.value[item.resolutor] = {
+      status: res.ok ? 'success' : 'error',
+      statusCode: res.status,
+      statusText: res.statusText,
+      message: result,
+      ok: res.ok,
+      timestamp: new Date().toISOString()
+    }
+
+    console.log('result', result)
   } catch (error) {
-    console.error('Error sending email:', error)
+    console.error('Error sending email:', error.message)
+    emailResponses.value[item.resolutor] = {
+      status: 'error',
+      message: error.message,
+      stack: error.stack,
+      timestamp: new Date().toISOString()
+    }
   }
 }
 

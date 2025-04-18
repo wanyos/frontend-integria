@@ -11,14 +11,14 @@
       <span v-for="(email, index) in displayedEmails" :key="index">
         {{ email }}<span v-if="index < displayedEmails.length - 1">, </span>
       </span>
-      <span v-if="emails.length > 2" class="more-text">...</span>
+      <span v-if="emailList.length > 2" class="more-text">...</span>
     </button>
 
     <Transition name="fade">
       <div v-if="showTooltip" class="tooltip">
         <div class="div__buttons">
-          <button @click="toggleEditMode">Edit</button>
-          <button @click="saveChanges">Save</button>
+          <button v-if="!isEditing" @click="toggleEditMode">Edit</button>
+          <button v-if="isEditing" @click="saveChanges">Save</button>
         </div>
 
         <div v-for="(email, index) in emailList" :key="'tooltip-' + index" class="div__emails">
@@ -29,6 +29,12 @@
             :class="{ 'editable-input': isEditing }"
             class="input__email"
           />
+
+          <button v-if="isEditing" @click="removeEmail(index)" class="delete-button">×</button>
+        </div>
+
+        <div v-if="isEditing" class="add-email-container">
+          <button @click="addNewEmail" class="add-email-button">+ Add new email</button>
         </div>
       </div>
     </Transition>
@@ -37,6 +43,8 @@
 
 <script setup>
 import { ref, computed, watch } from 'vue'
+
+const emit = defineEmits(['newEmails'])
 
 const props = defineProps({
   title: {
@@ -51,7 +59,7 @@ const props = defineProps({
 
 const isEditing = ref(false)
 const showTooltip = ref(false)
-const displayedEmails = computed(() => props.emails.slice(0, 2))
+const displayedEmails = computed(() => emailList.value.slice(0, 2))
 const emailList = ref([...props.emails])
 const editableEmailList = ref([...emailList.value])
 
@@ -63,10 +71,10 @@ const toggleEditMode = () => {
 }
 
 const saveChanges = () => {
-  if (isEditing.value) {
-    emailList.value = [...editableEmailList.value]
-    isEditing.value = false
-  }
+  emailList.value = [...editableEmailList.value]
+  emit('newEmails', emailList.value)
+  isEditing.value = false
+  showTooltip.value = !showTooltip.value
 }
 
 const toggleTooltip = () => {
@@ -76,12 +84,22 @@ const toggleTooltip = () => {
   }
 }
 
+const removeEmail = index => {
+  editableEmailList.value.splice(index, 1)
+}
+
+const addNewEmail = () => {
+  editableEmailList.value.push('')
+}
+
 watch(
-  () => emailList,
-  (newValue, oldValue) => {
-    console.log('new', newValue)
-    console.log('old', oldValue)
-  }
+  editableEmailList,
+  newValue => {
+    if (isEditing.value) {
+      emailList.value = [...newValue]
+    }
+  },
+  { deep: true }
 )
 </script>
 
@@ -96,6 +114,12 @@ watch(
   border-radius: 5px;
   position: relative;
   background: white;
+}
+
+.div__emails {
+  display: flex;
+  align-items: center;
+  margin: 0.5rem;
 }
 
 .button__icon {
@@ -126,6 +150,36 @@ h5 {
   cursor: pointer;
   text-align: left;
   position: relative;
+}
+
+.delete-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10px;
+  background-color: #ff5252;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.add-email-container {
+  margin-top: 15px;
+}
+
+.add-email-button {
+  background-color: #0088cc;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  padding: 5px 10px;
+  font-size: 12px;
+  cursor: pointer;
 }
 
 .more-text {
@@ -163,7 +217,6 @@ span {
   color: #fff;
   border-radius: 3px;
   padding: 5px;
-  margin-top: 7px;
   min-width: 15rem;
 }
 

@@ -1,25 +1,40 @@
 <template>
   <section class="card-container">
+    <loading
+      v-model:active="isLoading"
+      :can-cancel="true"
+      :is-full-page="false"
+      :color="'#1565C0'"
+    />
+
     <div class="div__container">
       <h5>{{ props.title }}</h5>
       <h5 class="name__total">{{ props.count }}</h5>
     </div>
     <div class="div__container">
-      <ButtonList title="Email To" :emails="props.emailsTo" />
-      <ButtonList title="Email Cc" :emails="props.emailsCc" />
+      <ButtonList title="Email To" :emails="props.emailsTo" @new-emails="updateEmailsTo" />
+      <ButtonList title="Email Cc" :emails="props.emailsCc" @new-emails="updateEmailsCc" />
     </div>
     <div class="div__button">
       <button @click="handleClick" class="btn__send">Send</button>
+    </div>
+    <div>
+      <p>{{ props.emailResponse }}</p>
     </div>
   </section>
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import ButtonList from './ButtonList.vue'
+import Loading from 'vue-loading-overlay'
+import 'vue-loading-overlay/dist/css/index.css'
 
-const emit = defineEmits(['button-click'])
+const emit = defineEmits(['button-click', 'update:newEmailsTo', 'update:newEmailsCc'])
+const isLoading = ref(false)
 
 const handleClick = () => {
+  isLoading.value = true
   emit('button-click')
 }
 
@@ -39,8 +54,20 @@ const props = defineProps({
   emailsCc: {
     type: Array,
     default: () => []
+  },
+  emailResponse: {
+    type: Object,
+    default: () => null
   }
 })
+
+const updateEmailsTo = emailsTo => {
+  emit('update:newEmailsTo', emailsTo)
+}
+
+const updateEmailsCc = emailsCc => {
+  emit('update:newEmailsCc', emailsCc)
+}
 </script>
 
 <style lang="css" scoped>
