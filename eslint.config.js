@@ -14,6 +14,21 @@ const prettierPluginConfig = {
   }
 }
 
+// Configuración manual para eslint-comments en lugar de usar el preset
+const eslintCommentsConfig = {
+  plugins: {
+    '@eslint-community/eslint-comments': eslintPluginComments
+  },
+  rules: {
+    '@eslint-community/eslint-comments/disable-enable-pair': 'error',
+    '@eslint-community/eslint-comments/no-aggregating-enable': 'error',
+    '@eslint-community/eslint-comments/no-duplicate-disable': 'error',
+    '@eslint-community/eslint-comments/no-unlimited-disable': 'error',
+    '@eslint-community/eslint-comments/no-unused-disable': 'error',
+    '@eslint-community/eslint-comments/no-unused-enable': 'error'
+  }
+}
+
 export default [
   {
     name: 'app/files-to-lint',
@@ -33,8 +48,8 @@ export default [
 
   js.configs.recommended,
   ...pluginVue.configs['flat/essential'],
-  prettierPluginConfig, // Añadimos la configuración de Prettier
-  eslintPluginComments.configs.recommended, // Útil para gestionar comentarios
+  prettierPluginConfig,
+  eslintCommentsConfig, // Reemplazamos la configuración preestablecida por nuestra configuración manual
 
   {
     ...pluginVitest.configs.recommended,

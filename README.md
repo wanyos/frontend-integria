@@ -1,57 +1,137 @@
 # integria-frontend
 
-This template should help get you started developing with Vue 3 in Vite.
+Web application developed with Vue 3 and Vite for managing and tracking technical incidents. This dashboard offers data visualization, report generation, and automated email communication.
 
-## Recommended IDE Setup
+🗂️ Project Structure
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+frontend-integria/
+├── src/ # Main source code
+│ ├── api/ # API clients and HTTP services
+│ │ └── incidents_api.js # Incidents API client
+│ ├── assets/ # Static resources (images, fonts)
+│ ├── components/ # Reusable Vue components
+│ │ ├── global-components/ # Shared components
+│ │ │ ├── ButtonList.vue # Email list management
+│ │ │ ├── CardFile.vue # File display
+│ │ │ └── CardItem.vue # Information card
+│ │ ├── TableChart.vue # Data table
+│ │ └── DateFilter.vue # Date selector
+│ ├── constants/ # Constants and configuration
+│ │ └── emailList.js # Predefined email list
+│ ├── router/ # Route configuration
+│ ├── stores/ # Global state (Pinia)
+│ │ └── authentication.js # Authentication state
+│ ├── utils/ # Utilities and helper functions
+│ │ └── create_files.js # Excel file generation
+│ ├── views/ # Page views
+│ │ └── IncidentsView.vue # Main incidents screen
+│ ├── App.vue # Root component
+│ └── main.js # Application entry point
+├── public/ # Public files (favicon, etc.)
+├── cypress/ # End-to-end tests
+├── eslint.config.js # ESLint configuration
+├── .prettierrc # Prettier configuration
+├── vite.config.js # Vite configuration
+└── cypress.config.js # Cypress configuration
 
-## Customize configuration
+🔧 Requirements
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+Node.js (v14 or higher)
+npm or yarn
+Internet connection for external APIs
 
-## Project Setup
+🚀 Installation and Setup
+
+# clone and install project
 
 ```sh
+git clone <repository-url>
+cd frontend-integria
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+# Start development server
 
 ```sh
 npm run dev
 ```
 
-### Compile and Minify for Production
+# Start development server and automatically open browser
+
+```sh
+npm run dev:open
+```
+
+# Build for production
 
 ```sh
 npm run build
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+# Preview production build
+
+```sh
+npm run preview
+```
+
+# Run unit tests with Vitest [Vitest](https://vitest.dev/)
 
 ```sh
 npm run test:unit
 ```
 
-### Run End-to-End Tests with [Cypress](https://www.cypress.io/)
+# Open Cypress for E2E tests [Cypress](https://www.cypress.io/)
 
 ```sh
-npm run test:e2e:dev
-```
-
-This runs the end-to-end tests against the Vite development server.
-It is much faster than the production build.
-
-But it's still recommended to test the production build with `test:e2e` before deploying (e.g. in CI environments):
-
-```sh
-npm run build
 npm run test:e2e
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+# Run E2E tests in Chrome headless
+
+```sh
+npm run test:all
+```
+
+# Run tests in Electron mode
+
+```sh
+npm run test:electron
+```
+
+# Check linting issues
 
 ```sh
 npm run lint
+```
+
+# Automatically fix linting issues
+
+```sh
+npm run lint:fix
+```
+
+# Format code with Prettier
+
+```sh
+npm run format
+```
+
+# Check formatting without modifying files
+
+```sh
+npm run format:check
+```
+
+📏 Code Standards
+
+# Check code
+
+```sh
+npm run lint && npm run format:check
+```
+
+# Fix automatically
+
+```sh
+npm run lint:fix && npm run format
 ```
