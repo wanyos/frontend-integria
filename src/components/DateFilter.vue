@@ -10,13 +10,17 @@
     :calendar-class="['customCalendarClass']"
     :wrapper-class="['wrapperClass']"
     :monday-first="true"
+    :highlighted="highlightedDates"
   />
 </template>
 
 <script setup>
 import DatePicker from 'vuejs3-datepicker'
+import dayjs from 'dayjs'
+import { ref } from 'vue'
 
 const emit = defineEmits(['setDate'])
+const highlightedDates = ref([dayjs().startOf('day').toDate()])
 
 const selectDate = date => {
   emit('setDate', date)

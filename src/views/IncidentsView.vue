@@ -83,7 +83,7 @@
       <p>{{ datesIntegria }}</p>
 
       <CardItem
-        v-for="(item, index) in incidents"
+        v-for="(item, index) in sortedIncidents"
         :key="index"
         :title="item.resolutor"
         :count="item.totalIncidents"
@@ -112,7 +112,6 @@ import Loading from 'vue-loading-overlay'
 import 'vue-loading-overlay/dist/css/index.css'
 import { createFileIss, createFileIntegria } from '../utils/create_files.js'
 import { EMAIL_LIST } from '@/constants/emailList.js'
-import { stringifyQuery } from 'vue-router'
 
 const columnsServidesk = ['Location', 'Incidents']
 const columnsIntegriaTec = ['Type', 'Incidents']
@@ -156,6 +155,14 @@ const isArrayFiles = computed(() =>
   issIncidents.value.length === 0 && integriaTechnology.value === 0 ? 'btnDisabled' : 'btnEnabled'
 )
 
+const sortedIncidents = computed(() => {
+  return [...incidents.value].sort((a, b) => {
+    if (a.emailsTo.length > 0 && b.emailsTo.length === 0) return -1
+    if (a.emailsTo.length === 0 && b.emailsTo.length > 0) return 1
+    return 0
+  })
+})
+
 onMounted(async () => {
   try {
     token = authStore.isAuthenticated
@@ -191,6 +198,7 @@ const search = async () => {
     return {
       id: item.id,
       resolutor: item.resolutor,
+      incidentsResolutor: item.incidents,
       totalIncidents: item.incidents.length,
       emailsTo: to,
       emailsCc: cc,
@@ -258,7 +266,6 @@ const newEmailsCc = (newEmails, index) => {
 }
 
 const handleSendGmail = async item => {
-  console.log('item', item)
   const email = item.emailsTo.join(',')
   const cc = item.emailsCc.join(',')
   const cco = item.emailsCco.join(',')
@@ -269,11 +276,12 @@ const handleSendGmail = async item => {
 
   try {
     emailResponses.value[item.resolutor] = { status: 'sending', message: 'Enviando...' }
+    const incidents = item.incidentsResolutor
 
     const res = await fetch('http://localhost:8022/send-gmail', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: token.value },
-      body: JSON.stringify({ email, cc, cco, title, comment, incidents: incidents.value })
+      body: JSON.stringify({ email, cc, cco, title, comment, incidents })
     })
 
     const result = await res.text()
@@ -283,14 +291,12 @@ const handleSendGmail = async item => {
       status: 'Success',
       ...resultObj
     }
-    console.log('result', resultObj)
+    // console.log('result', resultObj)
   } catch (error) {
-    console.error('Error sending email:', error.message)
     emailResponses.value[item.resolutor] = {
+      resolutor: item.resolutor,
       status: 'error',
-      message: error.message,
-      stack: error.stack,
-      timestamp: new Date().toISOString()
+      message: error.message
     }
   }
 }
