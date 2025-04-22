@@ -61,6 +61,7 @@
         :icon="IconExcel"
         :size="file.content.byteLength"
         @drag-start="e => handleFileDragStart(e, file)"
+        @remove-card="removeCard(index, 'filesIss')"
       />
 
       <CardFile
@@ -70,6 +71,7 @@
         :icon="IconExcel"
         :size="file.content.byteLength"
         @drag-start="e => handleFileDragStart(e, file)"
+        @remove-card="removeCard(index, 'filesIntegria')"
       />
     </div>
 
@@ -173,6 +175,14 @@ onMounted(async () => {
     console.error('Error fetching incidents:', error)
   }
 })
+
+const removeCard = (index, listName) => {
+  if (listName === 'filesIntegria') {
+    filesIntegria.value.splice(index, 1)
+  } else if (listName === 'filesIss') {
+    filesIss.value.splice(index, 1)
+  }
+}
 
 const search = async () => {
   isLoading.value = true
@@ -388,11 +398,11 @@ const startProcess = async () => {
 }
 
 .container-files {
-  grid-column: 4 / 7;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 1rem;
-  place-items: center;
 }
 
 .section__footer {

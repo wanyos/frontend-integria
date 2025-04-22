@@ -64,17 +64,16 @@ const getSubtitleClass = computed(() => props.subtitleClass || 'default-subtitle
 }
 
 .left-content {
-  margin-top: 5px;
   margin-right: 6px;
 }
 
 .right-content {
-  margin-top: 5px;
   margin-left: 6px;
 }
 
 .div-subtitle {
   display: flex;
+  justify-content: center;
   align-items: center;
 }
 </style>

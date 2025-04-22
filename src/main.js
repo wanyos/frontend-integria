@@ -14,7 +14,8 @@ import {
   BiEye,
   MdAlternateemailSharp,
   IoOptionsSharp,
-  FaPlusCircle
+  FaPlusCircle,
+  HiSolidChip
 } from 'oh-vue-icons/icons'
 import VueCookies from 'vue-cookies'
 import App from './App.vue'
@@ -35,7 +36,8 @@ addIcons(
   BiEye,
   MdAlternateemailSharp,
   IoOptionsSharp,
-  FaPlusCircle
+  FaPlusCircle,
+  HiSolidChip
 )
 
 const app = createApp(App)

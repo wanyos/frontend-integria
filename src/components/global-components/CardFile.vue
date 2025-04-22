@@ -15,7 +15,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 const props = defineProps({
   title: { type: String, default: '' },
@@ -24,7 +24,8 @@ const props = defineProps({
   size: { type: Number, default: 0 }
 })
 
-const emit = defineEmits(['drag-start', 'drag-end'])
+const emit = defineEmits(['drag-start', 'drag-end', 'remove-card'])
+const isDroppedInside = ref(false)
 
 const formattedSize = computed(() => {
   const bytes = props.size
@@ -45,6 +46,14 @@ const handleDragStart = event => {
   // Necesario para Firefox
   event.dataTransfer.setData('text/plain', props.file.name)
 
+  isDroppedInside.value = false
+  const handleDrop = () => {
+    isDroppedInside.value = true
+    window.removeEventListener('drop', handleDrop)
+  }
+
+  window.addEventListener('drop', handleDrop)
+
   // Establecer imagen de arrastre
   // const dragIcon = event.target.cloneNode(true);
   // dragIcon.style.opacity = '0.5';
@@ -60,6 +69,15 @@ const handleDragStart = event => {
 const handleDragEnd = event => {
   event.preventDefault()
   event.dataTransfer.clearData()
+
+  const { clientX, clientY } = event
+  const isOutsideWindow =
+    clientX < 0 || clientY < 0 || clientX > window.innerWidth || clientY > window.innerHeight
+
+  if (isOutsideWindow) {
+    emit('remove-card', props.file)
+  }
+
   emit('drag-end')
 }
 
@@ -80,6 +98,11 @@ const handleDrag = event => {
   padding: 0.5rem;
   transition: all 0.3s ease;
   opacity: 1;
+  cursor: grab;
+}
+
+.container__card:active {
+  cursor: grabbing;
 }
 
 .container__card .card.dragging {

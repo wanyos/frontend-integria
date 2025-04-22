@@ -33,7 +33,7 @@ const getBackground = computed(() => {
   min-width: 35px;
   height: 20px;
   border-radius: 5px;
-  padding: 0px 2px;
+  padding: 0px 5px;
   display: flex;
   justify-content: center;
   align-items: center;
