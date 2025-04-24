@@ -1,6 +1,6 @@
 <template>
   <section class="container">
-    <table>
+    <table :class="props.tableClasses">
       <caption>
         {{
           props.title
@@ -10,7 +10,13 @@
       <thead>
         <tr>
           <th v-if="props.firstColumn.length > 0">Months</th>
-          <th v-for="(item, index) in props.dataColumn" :key="index">{{ item }}</th>
+          <th
+            v-for="(item, index) in props.dataColumn"
+            :key="index"
+            :class="(getSpecialClassForColumn(index), firstBlock)"
+          >
+            {{ item }}
+          </th>
         </tr>
       </thead>
 
@@ -20,7 +26,8 @@
           <td
             v-for="(value, key, colIndex) in row"
             :key="colIndex"
-            :class="getColorClass(key, value)"
+            :class="[getColorClass(key, value), getSpecialClassForColumn(colIndex)]"
+            :title="colIndex === 4 ? value : ''"
           >
             {{ value }}
           </td>
@@ -31,6 +38,8 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
+
 const props = defineProps({
   title: {
     type: String,
@@ -47,8 +56,22 @@ const props = defineProps({
   dataRow: {
     type: Array,
     default: () => []
+  },
+  specialColumnIndices: {
+    type: Array,
+    default: () => []
+  },
+  specialColumnClasses: {
+    type: Array,
+    default: () => []
+  },
+  tableClasses: {
+    type: String,
+    default: ''
   }
 })
+
+const firstBlock = computed(() => (props.specialColumnClasses.length === 0 ? '' : 'first-row'))
 
 const getColorClass = (key, value) => {
   // Convertir el valor a número si es una cadena con el símbolo '%'
@@ -60,12 +83,21 @@ const getColorClass = (key, value) => {
   }
   return ''
 }
+
+const getSpecialClassForColumn = index => {
+  const position = props.specialColumnIndices.indexOf(index)
+  if (position !== -1 && props.specialColumnClasses[position]) {
+    return props.specialColumnClasses[position]
+  }
+  return ''
+}
 </script>
 
-<style lang="css" scoped>
+<style lang="css">
 .container {
   /* padding: 25px; */
   width: 100%;
+  position: relative;
 }
 
 caption {
@@ -82,9 +114,22 @@ table {
   width: 100%;
 }
 
+.first-row {
+  position: sticky;
+  top: 0;
+  background-color: #edf0f6;
+  z-index: 10;
+}
+
+/* thead th {
+  position: sticky;
+  top: 0;
+  background-color: #edf0f6;
+  z-index: 10;
+} */
+
 th {
   position: relative;
-
   padding: 10px 20px;
   font-size: 14px;
   font-weight: normal;
