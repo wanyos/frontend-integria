@@ -1,6 +1,5 @@
 describe('Render all charts in report', () => {
   beforeEach(() => {
-    cy.viewport(1440, 900)
     cy.visit('http://localhost:5173/')
   })
 

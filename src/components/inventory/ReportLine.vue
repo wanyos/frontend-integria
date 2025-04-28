@@ -72,7 +72,7 @@
     </section>
 
     <section class="container-chart">
-      <GradientLine />
+      <GradientLine title="Total lines by employee" :incidents="linesByEmployee" />
     </section>
   </section>
 </template>
@@ -94,6 +94,105 @@ const isLoading = ref(false)
 const columns = ref([])
 const rows = ref([])
 let token = null
+
+const linesByEmployee = [
+  {
+    hour: 0,
+    count: 28
+  },
+  {
+    hour: 1,
+    count: 44
+  },
+  {
+    hour: 2,
+    count: 23
+  },
+  {
+    hour: 3,
+    count: 16
+  },
+  {
+    hour: 4,
+    count: 17
+  },
+  {
+    hour: 5,
+    count: 29
+  },
+  {
+    hour: 6,
+    count: 115
+  },
+  {
+    hour: 7,
+    count: 452
+  },
+  {
+    hour: 8,
+    count: 435
+  },
+  {
+    hour: 9,
+    count: 447
+  },
+  {
+    hour: 10,
+    count: 472
+  },
+  {
+    hour: 11,
+    count: 457
+  },
+  {
+    hour: 12,
+    count: 420
+  },
+  {
+    hour: 13,
+    count: 551
+  },
+  {
+    hour: 14,
+    count: 345
+  },
+  {
+    hour: 15,
+    count: 181
+  },
+  {
+    hour: 16,
+    count: 104
+  },
+  {
+    hour: 17,
+    count: 75
+  },
+  {
+    hour: 18,
+    count: 56
+  },
+  {
+    hour: 19,
+    count: 68
+  },
+  {
+    hour: 20,
+    count: 58
+  },
+  {
+    hour: 21,
+    count: 56
+  },
+  {
+    hour: 22,
+    count: 40
+  },
+  {
+    hour: 23,
+    count: 47
+  }
+]
 
 onMounted(async () => {
   isLoading.value = true
@@ -153,7 +252,7 @@ onMounted(async () => {
   padding: 1rem;
   height: 20rem;
   overflow-x: auto;
-  width: 60rem;
+  width: 70rem;
   margin-left: auto;
   margin-right: auto;
 }
@@ -177,7 +276,7 @@ onMounted(async () => {
 }
 
 .two-width {
-  width: 3rem;
+  width: 5rem;
 }
 
 .no-border-shadow {
@@ -187,5 +286,6 @@ onMounted(async () => {
 
 .container-chart {
   border: 1px solid red;
+  height: 300px;
 }
 </style>
