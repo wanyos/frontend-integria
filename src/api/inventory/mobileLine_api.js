@@ -1,6 +1,28 @@
 import ApiBase from '../apiBase'
 
 class MobileLineApi extends ApiBase {
+  async getLinesByStatus(token) {
+    const needToken = true
+    ApiBase._setToken(token)
+    const allLinesByStatus = await this.get('/api/inventory/mobile-lines/bystatus', needToken)
+
+    const groupLinesStatus = allLinesByStatus.reduce((groups, line) => {
+      const status = line.status
+      if (!groups[status]) {
+        groups[status] = []
+      }
+      groups[status].push(line)
+      return groups
+    }, {})
+
+    const linesByStatus = {
+      totalLines: allLinesByStatus.length,
+      groupLinesStatus
+    }
+
+    return linesByStatus
+  }
+
   async getMobileLinesCount(token) {
     const needToken = true
     ApiBase._setToken(token)

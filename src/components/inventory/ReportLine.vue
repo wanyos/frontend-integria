@@ -1,5 +1,5 @@
 <template>
-  <section class="main-container">
+  <section class="container-report-lines">
     <loading
       v-model:active="isLoading"
       :can-cancel="true"
@@ -9,70 +9,42 @@
 
     <section class="container-items">
       <div class="item">
-        <InfoItem
-          title="Total mobile lines"
-          :subtitle="mobileLinesStore.totalMobilelines"
-          class="item-info"
-        >
-          <!-- <template #right-icon> <BaseBadge :label="42" /> </template> -->
-        </InfoItem>
+        <InfoItem title="Total mobile lines" :subtitle="totalLines" class="item-info"> </InfoItem>
       </div>
 
-      <div class="item">
-        <InfoItem
-          title="Total new lines"
-          :subtitle="mobileLinesStore.totalMobileNewLines"
-          class="item-info"
-        >
-          <!-- <template #right-icon> <BaseBadge :label="42" /> </template> -->
-        </InfoItem>
-      </div>
-
-      <div class="item">
-        <InfoItem
-          title="Total inuse lines"
-          :subtitle="mobileLinesStore.totalMobileInuseLines"
-          class="item-info"
-        >
-          <!-- <template #right-icon> <BaseBadge :label="42" /> </template> -->
-        </InfoItem>
-      </div>
-
-      <div class="item">
-        <InfoItem
-          title="Total status error"
-          :subtitle="mobileLinesStore.totalErrorStatus.length"
-          class="item-info"
-        >
-          <!-- <template #right-icon> <BaseBadge :label="42" /> </template> -->
-        </InfoItem>
+      <div v-for="(item, index) in groupsByStatus" :key="index" class="item">
+        <button @click="showLines(item.lines, item.status)" class="button__item">
+          <InfoItem
+            :title="`Total ${item.status} lines`"
+            :subtitle="item.lines.length"
+            class="item-info"
+          >
+            <!-- <template #right-icon> <BaseBadge :label="42" /> </template> -->
+          </InfoItem>
+        </button>
       </div>
     </section>
 
-    <section class="container__status-error">
+    <section class="container-lines__status">
       <TableChart
-        title="Lines error status"
+        :title="`Status ${isStatus} lines`"
         :data-column="columns"
-        :data-row="rows"
-        :special-column-indices="[0, 1, 2, 3, 4, 5, 6, 7, 8]"
-        :special-column-classes="[
-          'one-width',
-          'one-width',
-          'one-width',
-          'two-width',
-          'column-description',
-          'one-width',
-          'one-width',
-          'one-width',
-          'one-width'
-        ]"
-        class="table-status"
-        :table-classes="'no-border-shadow'"
+        :data-row="selectedLines"
+        :special-column-classes="{
+          5: 'column-description'
+        }"
+        class="chart-base"
       />
     </section>
 
-    <section class="container-chart">
-      <GradientLine title="Total lines by employee" :incidents="linesByEmployee" />
+    <section class="container-lines__employees">
+      <BarChart
+        title="Total lines by employee"
+        :incidents="getLinesByEmployee"
+        :categories="employees"
+        :options="{ rotate: -45, rotateAlways: true, width: '50%' }"
+        class="chart-base"
+      />
     </section>
   </section>
 </template>
@@ -80,119 +52,195 @@
 <script setup>
 import InfoItem from '@/components/InfoItem.vue'
 import BaseBadge from '@/components/BaseBadge.vue'
-import TableChart from '../TableChart.vue'
-import GradientLine from '../GradientLine.vue'
+import TableChart from '@/components/TableChart.vue'
+import BarChart from '@/components/BarChart.vue'
 import Loading from 'vue-loading-overlay'
 import 'vue-loading-overlay/dist/css/index.css'
 import { ref, computed, onMounted } from 'vue'
 import { useMobileLinesStore } from '@/stores/inventory/mobileLines.js'
 import { useAuthenticationStore } from '@/stores/authentication'
+import { generateDataBarchart } from '@/utils/dataProcessor.js'
 
 const mobileLinesStore = useMobileLinesStore()
 const authStore = useAuthenticationStore()
+
+const totalLines = ref(0)
+const groupsByStatus = ref([])
+const selectedLines = ref([])
+const isStatus = ref('')
+
 const isLoading = ref(false)
 const columns = ref([])
-const rows = ref([])
 let token = null
 
-const linesByEmployee = [
-  {
-    hour: 0,
-    count: 28
-  },
-  {
-    hour: 1,
-    count: 44
-  },
-  {
-    hour: 2,
-    count: 23
-  },
-  {
-    hour: 3,
-    count: 16
-  },
-  {
-    hour: 4,
-    count: 17
-  },
-  {
-    hour: 5,
-    count: 29
-  },
-  {
-    hour: 6,
-    count: 115
-  },
-  {
-    hour: 7,
-    count: 452
-  },
-  {
-    hour: 8,
-    count: 435
-  },
-  {
-    hour: 9,
-    count: 447
-  },
-  {
-    hour: 10,
-    count: 472
-  },
-  {
-    hour: 11,
-    count: 457
-  },
-  {
-    hour: 12,
-    count: 420
-  },
-  {
-    hour: 13,
-    count: 551
-  },
-  {
-    hour: 14,
-    count: 345
-  },
-  {
-    hour: 15,
-    count: 181
-  },
-  {
-    hour: 16,
-    count: 104
-  },
-  {
-    hour: 17,
-    count: 75
-  },
-  {
-    hour: 18,
-    count: 56
-  },
-  {
-    hour: 19,
-    count: 68
-  },
-  {
-    hour: 20,
-    count: 58
-  },
-  {
-    hour: 21,
-    count: 56
-  },
-  {
-    hour: 22,
-    count: 40
-  },
-  {
-    hour: 23,
-    count: 47
-  }
+const getLinesByEmployee = computed(() => generateDataBarchart(testData))
+const linesByEmployee = JSON.parse(
+  JSON.stringify([
+    {
+      hour: 0,
+      count: 7
+    },
+    {
+      hour: 1,
+      count: 7
+    },
+    {
+      hour: 2,
+      count: 7
+    },
+    {
+      hour: 3,
+      count: 6
+    },
+    {
+      hour: 4,
+      count: 9
+    },
+    {
+      hour: 5,
+      count: 17
+    },
+    {
+      hour: 6,
+      count: 17
+    },
+    {
+      hour: 7,
+      count: 109
+    },
+    {
+      hour: 8,
+      count: 120
+    },
+    {
+      hour: 9,
+      count: 108
+    },
+    {
+      hour: 10,
+      count: 106
+    },
+    {
+      hour: 11,
+      count: 103
+    },
+    {
+      hour: 12,
+      count: 86
+    },
+    {
+      hour: 13,
+      count: 98
+    },
+    {
+      hour: 14,
+      count: 64
+    },
+    {
+      hour: 15,
+      count: 47
+    },
+    {
+      hour: 16,
+      count: 35
+    },
+    {
+      hour: 17,
+      count: 20
+    },
+    {
+      hour: 18,
+      count: 13
+    },
+    {
+      hour: 19,
+      count: 20
+    },
+    {
+      hour: 20,
+      count: 7
+    },
+    {
+      hour: 21,
+      count: 18
+    },
+    {
+      hour: 22,
+      count: 11
+    },
+    {
+      hour: 23,
+      count: 9
+    }
+  ])
+)
+
+const testData = [
+  { employee: 1234, line: 1001, count: 12 },
+  { employee: 12345, line: 1002, count: 7 },
+  { employee: 23456, line: 1003, count: 14 },
+  { employee: 34567, line: 1004, count: 3 },
+  { employee: 45678, line: 1005, count: 10 },
+  { employee: 56789, line: 1006, count: 8 },
+  { employee: 67890, line: 1007, count: 15 },
+  { employee: 78901, line: 1008, count: 5 },
+  { employee: 89012, line: 1009, count: 11 },
+  { employee: 90123, line: 1010, count: 6 },
+  { employee: 12, line: 1011, count: 13 },
+  { employee: 123, line: 1012, count: 4 },
+  { employee: 234, line: 1013, count: 9 },
+  { employee: 345, line: 1014, count: 2 },
+  { employee: 456, line: 1015, count: 15 },
+  { employee: 567, line: 1016, count: 8 },
+  { employee: 678, line: 1017, count: 7 },
+  { employee: 789, line: 1018, count: 14 },
+  { employee: 890, line: 1019, count: 3 },
+  { employee: 901, line: 1020, count: 12 },
+  { employee: 34567, line: 1004, count: 3 },
+  { employee: 45678, line: 1005, count: 10 },
+  { employee: 56789, line: 1006, count: 8 },
+  { employee: 67890, line: 1007, count: 15 },
+  { employee: 78901, line: 1008, count: 5 },
+  { employee: 89012, line: 1009, count: 11 },
+  { employee: 90123, line: 1010, count: 6 },
+  { employee: 12, line: 1011, count: 13 },
+  { employee: 123, line: 1012, count: 4 },
+  { employee: 234, line: 1013, count: 9 },
+  { employee: 345, line: 1014, count: 2 },
+  { employee: 456, line: 1015, count: 15 },
+  { employee: 789, line: 1018, count: 14 },
+  { employee: 890, line: 1019, count: 3 },
+  { employee: 901, line: 1020, count: 12 },
+  { employee: 34567, line: 1004, count: 3 },
+  { employee: 45678, line: 1005, count: 10 },
+  { employee: 56789, line: 1006, count: 8 },
+  { employee: 67890, line: 1007, count: 15 },
+  { employee: 78901, line: 1008, count: 5 },
+  { employee: 89012, line: 1009, count: 11 },
+  { employee: 90123, line: 1010, count: 6 },
+  { employee: 12, line: 1011, count: 13 },
+  { employee: 123, line: 1012, count: 4 },
+  { employee: 234, line: 1013, count: 9 },
+  { employee: 345, line: 1014, count: 2 },
+  { employee: 456, line: 1015, count: 15 }
 ]
+
+const employees = testData.map(item => String(item.employee).padStart(5, '0'))
+
+const showLines = (lines, status) => {
+  columns.value = Object.keys(lines[0])
+
+  columns.value = ['N', ...columns.value]
+  lines = lines.map((row, index) => {
+    return {
+      N: index + 1,
+      ...row
+    }
+  })
+
+  selectedLines.value = lines
+  isStatus.value = status
+}
 
 onMounted(async () => {
   isLoading.value = true
@@ -202,21 +250,21 @@ onMounted(async () => {
       throw new Error('No authentication token available')
     }
 
-    await Promise.all([
-      mobileLinesStore.getTotalMobileLines(token),
-      mobileLinesStore.getTotalMobileNewLines(token),
-      mobileLinesStore.getTotalMobileInuseLines(token),
-      mobileLinesStore.getTotalErrorStatusLines(token)
-    ])
+    if (!mobileLinesStore.linesByStatus.length) {
+      await mobileLinesStore.getLinesByStatus(token)
+    }
 
-    columns.value = Object.keys(mobileLinesStore.totalErrorStatus[0])
-    columns.value = ['N', ...columns.value]
-    rows.value = mobileLinesStore.totalErrorStatus.map((row, index) => {
-      return {
-        N: index + 1,
-        ...row
-      }
-    })
+    totalLines.value = mobileLinesStore.totalByStatus
+    groupsByStatus.value = mobileLinesStore.linesByStatus
+    const firstGroup = groupsByStatus.value
+    const groupStatus = firstGroup[0].status
+    const groupLines = firstGroup[0].lines
+
+    showLines(groupLines, groupStatus)
+
+    // console.log('report total', totalLines.value)
+    // console.log('retort lines', groupsByStatus.value)
+    // console.log('lines', firstGroup[0].lines[0])
   } catch (error) {
     console.error('Error fetching mobile lines:', error)
   } finally {
@@ -226,10 +274,11 @@ onMounted(async () => {
 </script>
 
 <style lang="css">
-.main-container {
+.container-report-lines {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  overflow: hidden;
 }
 
 .container-items {
@@ -246,42 +295,30 @@ onMounted(async () => {
   align-items: center;
 }
 
-.container__status-error {
-  border: 1px solid var(--color-text);
-  border-radius: 15px;
-  padding: 1rem;
-  height: 20rem;
-  overflow-x: auto;
-  width: 70rem;
+.container-lines__status {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: center;
+}
+
+.container-lines__employees {
+  width: 90%;
   margin-left: auto;
   margin-right: auto;
 }
 
 .column-description {
-  width: 9rem;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  max-width: 10rem;
+  max-width: 150px;
 }
 
-.table-status {
-  width: 100%;
-  overflow-y: auto;
-  max-height: 20rem;
+.button__item {
+  cursor: pointer;
 }
 
-.one-width {
-  width: 0.8rem;
-}
-
-.two-width {
-  width: 5rem;
-}
-
-.no-border-shadow {
-  border: none !important;
-  box-shadow: none !important;
+.button__item:hover {
+  background-color: var(--hover-button);
 }
 
 .container-chart {

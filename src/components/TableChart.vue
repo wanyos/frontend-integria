@@ -1,45 +1,45 @@
 <template>
-  <section class="container">
-    <table :class="props.tableClasses">
-      <caption>
-        {{
-          props.title
-        }}
-      </caption>
+  <section class="container chart-base">
+    <div class="table-scroll">
+      <table :class="props.tableClasses">
+        <caption>
+          {{
+            props.title
+          }}
+        </caption>
 
-      <thead>
-        <tr>
-          <th v-if="props.firstColumn.length > 0">Months</th>
-          <th
-            v-for="(item, index) in props.dataColumn"
-            :key="index"
-            :class="(getSpecialClassForColumn(index), firstBlock)"
-          >
-            {{ item }}
-          </th>
-        </tr>
-      </thead>
+        <thead>
+          <tr>
+            <th v-if="props.firstColumn.length > 0">Months</th>
+            <th
+              v-for="(item, index) in props.dataColumn"
+              :key="index"
+              :class="getSpecialClassForColumn(index)"
+            >
+              {{ item }}
+            </th>
+          </tr>
+        </thead>
 
-      <tbody>
-        <tr v-for="(row, rowIndex) in props.dataRow" :key="rowIndex">
-          <td v-if="props.firstColumn.length > 0">{{ props.firstColumn[rowIndex] }}</td>
-          <td
-            v-for="(value, key, colIndex) in row"
-            :key="colIndex"
-            :class="[getColorClass(key, value), getSpecialClassForColumn(colIndex)]"
-            :title="colIndex === 4 ? value : ''"
-          >
-            {{ value }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+        <tbody>
+          <tr v-for="(row, rowIndex) in props.dataRow" :key="rowIndex">
+            <td v-if="props.firstColumn.length > 0">{{ props.firstColumn[rowIndex] }}</td>
+            <td
+              v-for="(value, key, colIndex) in row"
+              :key="colIndex"
+              :class="[getColorClass(key, value), getSpecialClassForColumn(colIndex)]"
+              :title="colIndex === 5 ? value : ''"
+            >
+              {{ value }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </section>
 </template>
 
 <script setup>
-import { computed } from 'vue'
-
 const props = defineProps({
   title: {
     type: String,
@@ -57,21 +57,15 @@ const props = defineProps({
     type: Array,
     default: () => []
   },
-  specialColumnIndices: {
-    type: Array,
-    default: () => []
-  },
   specialColumnClasses: {
-    type: Array,
-    default: () => []
+    type: Object,
+    default: () => ({})
   },
   tableClasses: {
     type: String,
     default: ''
   }
 })
-
-const firstBlock = computed(() => (props.specialColumnClasses.length === 0 ? '' : 'first-row'))
 
 const getColorClass = (key, value) => {
   // Convertir el valor a número si es una cadena con el símbolo '%'
@@ -85,19 +79,31 @@ const getColorClass = (key, value) => {
 }
 
 const getSpecialClassForColumn = index => {
-  const position = props.specialColumnIndices.indexOf(index)
-  if (position !== -1 && props.specialColumnClasses[position]) {
-    return props.specialColumnClasses[position]
+  if (!props.specialColumnClasses || typeof props.specialColumnClasses !== 'object') {
+    return ''
   }
-  return ''
+  return props.specialColumnClasses[index] || ''
 }
 </script>
 
 <style lang="css">
+.chart-base {
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 15px;
+}
+
 .container {
-  /* padding: 25px; */
   width: 100%;
-  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.table-scroll {
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 30rem;
+  width: 100%;
 }
 
 caption {
@@ -105,28 +111,34 @@ caption {
   font-size: 16px;
   font-weight: normal;
   color: #1a1a1a;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background-color: #fff;
+  padding: 10px 0;
 }
 
 table {
-  border: 1px solid lightslategray;
-  border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   width: 100%;
+  border-collapse: separate;
+  border-spacing: 10px 5px;
 }
 
-.first-row {
+thead th {
   position: sticky;
-  top: 0;
-  background-color: #edf0f6;
+  top: 2.2rem;
+  background-color: #fff;
   z-index: 10;
+  border-bottom: 1px solid var(--color-text);
+  box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.05);
 }
 
-/* thead th {
-  position: sticky;
-  top: 0;
-  background-color: #edf0f6;
-  z-index: 10;
-} */
+th,
+td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 th {
   position: relative;
@@ -134,15 +146,6 @@ th {
   font-size: 14px;
   font-weight: normal;
   color: #1a1a1a;
-}
-
-th::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 10%;
-  width: 80%;
-  border-bottom: 2px solid black;
 }
 
 td {
