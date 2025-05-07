@@ -1,5 +1,5 @@
 <template>
-  <section class="container-info-item">
+  <section :class="getContainerClass">
     <span :class="getTitleClass">{{ props.title }}</span>
     <div class="div-subtitle">
       <div class="left-content">
@@ -25,6 +25,10 @@ const props = defineProps({
     type: [String, Number],
     default: ''
   },
+  containerClass: {
+    type: [String, Array, Object],
+    default: null
+  },
   titleClass: {
     type: [String, Array, Object],
     default: null
@@ -35,6 +39,7 @@ const props = defineProps({
   }
 })
 
+const getContainerClass = computed(() => props.containerClass || 'container-info-item');
 const getTitleClass = computed(() => props.titleClass || 'default-title-class')
 const getSubtitleClass = computed(() => props.subtitleClass || 'default-subtitle-class')
 </script>

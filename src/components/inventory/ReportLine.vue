@@ -1,11 +1,6 @@
 <template>
   <section class="container-report-lines">
-    <loading
-      v-model:active="isLoading"
-      :can-cancel="true"
-      :is-full-page="false"
-      :color="'#1565C0'"
-    />
+    <loading v-model:active="isLoading" :can-cancel="true" :is-full-page="false" :color="'#1565C0'" />
 
     <section class="container-items">
       <div class="item">
@@ -14,11 +9,7 @@
 
       <div v-for="(item, index) in groupsByStatus" :key="index" class="item">
         <button @click="showLines(item.lines, item.status)" class="button__item">
-          <InfoItem
-            :title="`Total ${item.status} lines`"
-            :subtitle="item.lines.length"
-            class="item-info"
-          >
+          <InfoItem :title="`Total ${item.status} lines`" :subtitle="item.lines.length" class="item-info">
             <!-- <template #right-icon> <BaseBadge :label="42" /> </template> -->
           </InfoItem>
         </button>
@@ -26,26 +17,135 @@
     </section>
 
     <section class="container-lines__status">
-      <TableChart
-        :title="`Status ${isStatus} lines`"
-        :data-column="columns"
-        :data-row="selectedLines"
+      <TableChart :title="`Status ${isStatus} lines`" :data-column="columns" :data-row="selectedLines"
         :special-column-classes="{
           5: 'column-description'
-        }"
-        class="chart-base"
-      />
+        }" class="chart-base" />
     </section>
 
-    <section class="container-lines__employees">
-      <BarChart
-        title="Total lines by employee"
-        :incidents="getLinesByEmployee"
-        :categories="employees"
-        :options="{ rotate: -45, rotateAlways: true, width: '50%' }"
-        class="chart-base"
-      />
+    <div class="custom-separator"></div>
+
+    <div class="div__info-employees">
+      <div class="div__combo">
+        <ComboBox :options="values" icon-name="md-formatlistnumbered-outlined" v-model="countLines" class="combobox" />
+        <div class="item">
+          <InfoItem title="Total employees 122" class="item-info" />
+        </div>
+      </div>
+
+
+      <form class="form-search" @submit.prevent="searchEmployee">
+        <label for="employeeId">Employee</label>
+        <input type="number" id="employeeId" v-model="employeeSearch" min="0" max="999999" placeholder="Enter ID" />
+        <button type="submit">Search</button>
+      </form>
+
+    </div>
+
+
+    <section class="container-lines__employees container-item__employees ">
+      <div class="item">
+        <InfoItem title="user: 13923" subtitle="lines: 1422, 1526, 1211" title-class="title__infoitem"
+          :subtitle-class="'subtitle__infoitem'" class="item-info" />
+      </div>
+
+      <div class="item">
+        <InfoItem title="user: 13923" subtitle="lines: 1422, 1526, 1211" :title-class="'title__infoitem'"
+          :subtitle-class="'subtitle__infoitem'" class="item-info" />
+      </div>
+
+      <div class="item">
+        <InfoItem title="user: 13923" subtitle="lines: 1422, 1526, 1211" :title-class="'title__infoitem'"
+          :subtitle-class="'subtitle__infoitem'" class="item-info" />
+      </div>
+      <div class="item">
+        <InfoItem title="user: 13923" subtitle="lines: 1422, 1526, 1211" :title-class="'title__infoitem'"
+          :subtitle-class="'subtitle__infoitem'" class="item-info" />
+      </div>
+      <div class="item">
+        <InfoItem title="user: 13923" subtitle="lines: 1422, 1526, 1211" :title-class="'title__infoitem'"
+          :subtitle-class="'subtitle__infoitem'" class="item-info" />
+      </div>
+      <div class="item">
+        <InfoItem title="user: 13923" subtitle="lines: 1422, 1526, 1211" :title-class="'title__infoitem'"
+          :subtitle-class="'subtitle__infoitem'" class="item-info" />
+      </div>
+      <div class="item">
+        <InfoItem title="user: 13923" subtitle="lines: 1422, 1526, 1211" :title-class="'title__infoitem'"
+          :subtitle-class="'subtitle__infoitem'" class="item-info" />
+      </div>
+      <div class="item">
+        <InfoItem title="user: 13923" subtitle="lines: 1422, 1526, 1211" :title-class="'title__infoitem'"
+          :subtitle-class="'subtitle__infoitem'" class="item-info" />
+      </div>
+      <div class="item">
+        <InfoItem title="user: 13923" subtitle="lines: 1422, 1526, 1211" :title-class="'title__infoitem'"
+          :subtitle-class="'subtitle__infoitem'" class="item-info" />
+      </div>
+      <div class="item">
+        <InfoItem title="user: 13923" subtitle="lines: 1422, 1526, 1211" :title-class="'title__infoitem'"
+          :subtitle-class="'subtitle__infoitem'" class="item-info" />
+      </div>
+      <div class="item">
+        <InfoItem title="user: 13923" subtitle="lines: 1422, 1526, 1211" :title-class="'title__infoitem'"
+          :subtitle-class="'subtitle__infoitem'" class="item-info" />
+      </div>
+      <div class="item">
+        <InfoItem title="user: 13923" subtitle="lines: 1422, 1526, 1211" :title-class="'title__infoitem'"
+          :subtitle-class="'subtitle__infoitem'" class="item-info" />
+      </div>
+      <div class="item">
+        <InfoItem title="user: 13923" subtitle="lines: 1422, 1526, 1211" :title-class="'title__infoitem'"
+          :subtitle-class="'subtitle__infoitem'" class="item-info" />
+      </div>
+      <div class="item">
+        <InfoItem title="user: 13923" subtitle="lines: 1422, 1526, 1211" :title-class="'title__infoitem'"
+          :subtitle-class="'subtitle__infoitem'" class="item-info" />
+      </div>
+      <div class="item">
+        <InfoItem title="user: 13923" subtitle="lines: 1422, 1526, 1211" :title-class="'title__infoitem'"
+          :subtitle-class="'subtitle__infoitem'" class="item-info" />
+      </div>
+      <div class="item">
+        <InfoItem title="user: 13923" subtitle="lines: 1422, 1526, 1211" :title-class="'title__infoitem'"
+          :subtitle-class="'subtitle__infoitem'" class="item-info" />
+      </div>
+      <div class="item">
+        <InfoItem title="user: 13923" subtitle="lines: 1422, 1526, 1211" :title-class="'title__infoitem'"
+          :subtitle-class="'subtitle__infoitem'" class="item-info" />
+      </div>
+      <div class="item">
+        <InfoItem title="user: 13923" subtitle="lines: 1422, 1526, 1211" :title-class="'title__infoitem'"
+          :subtitle-class="'subtitle__infoitem'" class="item-info" />
+      </div>
+      <div class="item">
+        <InfoItem title="user: 13923" subtitle="lines: 1422, 1526, 1211" :title-class="'title__infoitem'"
+          :subtitle-class="'subtitle__infoitem'" class="item-info" />
+      </div>
+      <div class="item">
+        <InfoItem title="user: 13923" subtitle="lines: 1422, 1526, 1211" :title-class="'title__infoitem'"
+          :subtitle-class="'subtitle__infoitem'" class="item-info" />
+      </div>
+      <div class="item">
+        <InfoItem title="user: 13923" subtitle="lines: 1422, 1526, 1211" :title-class="'title__infoitem'"
+          :subtitle-class="'subtitle__infoitem'" class="item-info" />
+      </div>
+      <div class="item">
+        <InfoItem title="user: 13923" subtitle="lines: 1422, 1526, 1211" :title-class="'title__infoitem'"
+          :subtitle-class="'subtitle__infoitem'" class="item-info" />
+      </div>
+      <div class="item">
+        <InfoItem title="user: 13923" subtitle="lines: 1422, 1526, 1211" :title-class="'title__infoitem'"
+          :subtitle-class="'subtitle__infoitem'" class="item-info" />
+      </div>
+
     </section>
+
+
+    <!-- <section class="container-lines__employees">
+      <BarChart title="Total lines by employee" :incidents="getLinesByEmployee" :categories="employees"
+        :options="{ rotate: -45, rotateAlways: true, width: '50%' }" class="chart-base" />
+    </section> -->
   </section>
 </template>
 
@@ -53,179 +153,185 @@
 import InfoItem from '@/components/InfoItem.vue'
 import BaseBadge from '@/components/BaseBadge.vue'
 import TableChart from '@/components/TableChart.vue'
-import BarChart from '@/components/BarChart.vue'
+import ComboBox from '@/components/ComboBox.vue'
+// import BarChart from '@/components/BarChart.vue'
 import Loading from 'vue-loading-overlay'
 import 'vue-loading-overlay/dist/css/index.css'
 import { ref, computed, onMounted } from 'vue'
 import { useMobileLinesStore } from '@/stores/inventory/mobileLines.js'
 import { useAuthenticationStore } from '@/stores/authentication'
-import { generateDataBarchart } from '@/utils/dataProcessor.js'
+// import { generateDataBarchart } from '@/utils/dataProcessor.js'
 
 const mobileLinesStore = useMobileLinesStore()
 const authStore = useAuthenticationStore()
 
+const linesByEmployee = ref([])
 const totalLines = ref(0)
 const groupsByStatus = ref([])
 const selectedLines = ref([])
 const isStatus = ref('')
+const countLines = ref('')
+const employeeSearch = ref('');
 
 const isLoading = ref(false)
 const columns = ref([])
 let token = null
 
-const getLinesByEmployee = computed(() => generateDataBarchart(testData))
-const linesByEmployee = JSON.parse(
-  JSON.stringify([
-    {
-      hour: 0,
-      count: 7
-    },
-    {
-      hour: 1,
-      count: 7
-    },
-    {
-      hour: 2,
-      count: 7
-    },
-    {
-      hour: 3,
-      count: 6
-    },
-    {
-      hour: 4,
-      count: 9
-    },
-    {
-      hour: 5,
-      count: 17
-    },
-    {
-      hour: 6,
-      count: 17
-    },
-    {
-      hour: 7,
-      count: 109
-    },
-    {
-      hour: 8,
-      count: 120
-    },
-    {
-      hour: 9,
-      count: 108
-    },
-    {
-      hour: 10,
-      count: 106
-    },
-    {
-      hour: 11,
-      count: 103
-    },
-    {
-      hour: 12,
-      count: 86
-    },
-    {
-      hour: 13,
-      count: 98
-    },
-    {
-      hour: 14,
-      count: 64
-    },
-    {
-      hour: 15,
-      count: 47
-    },
-    {
-      hour: 16,
-      count: 35
-    },
-    {
-      hour: 17,
-      count: 20
-    },
-    {
-      hour: 18,
-      count: 13
-    },
-    {
-      hour: 19,
-      count: 20
-    },
-    {
-      hour: 20,
-      count: 7
-    },
-    {
-      hour: 21,
-      count: 18
-    },
-    {
-      hour: 22,
-      count: 11
-    },
-    {
-      hour: 23,
-      count: 9
-    }
-  ])
-)
+const values = ['2 lines', '3 lines', '4', '5', '6', '7', '8', '9']
 
-const testData = [
-  { employee: 1234, line: 1001, count: 12 },
-  { employee: 12345, line: 1002, count: 7 },
-  { employee: 23456, line: 1003, count: 14 },
-  { employee: 34567, line: 1004, count: 3 },
-  { employee: 45678, line: 1005, count: 10 },
-  { employee: 56789, line: 1006, count: 8 },
-  { employee: 67890, line: 1007, count: 15 },
-  { employee: 78901, line: 1008, count: 5 },
-  { employee: 89012, line: 1009, count: 11 },
-  { employee: 90123, line: 1010, count: 6 },
-  { employee: 12, line: 1011, count: 13 },
-  { employee: 123, line: 1012, count: 4 },
-  { employee: 234, line: 1013, count: 9 },
-  { employee: 345, line: 1014, count: 2 },
-  { employee: 456, line: 1015, count: 15 },
-  { employee: 567, line: 1016, count: 8 },
-  { employee: 678, line: 1017, count: 7 },
-  { employee: 789, line: 1018, count: 14 },
-  { employee: 890, line: 1019, count: 3 },
-  { employee: 901, line: 1020, count: 12 },
-  { employee: 34567, line: 1004, count: 3 },
-  { employee: 45678, line: 1005, count: 10 },
-  { employee: 56789, line: 1006, count: 8 },
-  { employee: 67890, line: 1007, count: 15 },
-  { employee: 78901, line: 1008, count: 5 },
-  { employee: 89012, line: 1009, count: 11 },
-  { employee: 90123, line: 1010, count: 6 },
-  { employee: 12, line: 1011, count: 13 },
-  { employee: 123, line: 1012, count: 4 },
-  { employee: 234, line: 1013, count: 9 },
-  { employee: 345, line: 1014, count: 2 },
-  { employee: 456, line: 1015, count: 15 },
-  { employee: 789, line: 1018, count: 14 },
-  { employee: 890, line: 1019, count: 3 },
-  { employee: 901, line: 1020, count: 12 },
-  { employee: 34567, line: 1004, count: 3 },
-  { employee: 45678, line: 1005, count: 10 },
-  { employee: 56789, line: 1006, count: 8 },
-  { employee: 67890, line: 1007, count: 15 },
-  { employee: 78901, line: 1008, count: 5 },
-  { employee: 89012, line: 1009, count: 11 },
-  { employee: 90123, line: 1010, count: 6 },
-  { employee: 12, line: 1011, count: 13 },
-  { employee: 123, line: 1012, count: 4 },
-  { employee: 234, line: 1013, count: 9 },
-  { employee: 345, line: 1014, count: 2 },
-  { employee: 456, line: 1015, count: 15 }
-]
+// const getLinesByEmployee = computed(() => generateDataBarchart(testData))
+// const linesByEmployee = JSON.parse(
+//   JSON.stringify([
+//     {
+//       hour: 0,
+//       count: 7
+//     },
+//     {
+//       hour: 1,
+//       count: 7
+//     },
+//     {
+//       hour: 2,
+//       count: 7
+//     },
+//     {
+//       hour: 3,
+//       count: 6
+//     },
+//     {
+//       hour: 4,
+//       count: 9
+//     },
+//     {
+//       hour: 5,
+//       count: 17
+//     },
+//     {
+//       hour: 6,
+//       count: 17
+//     },
+//     {
+//       hour: 7,
+//       count: 109
+//     },
+//     {
+//       hour: 8,
+//       count: 120
+//     },
+//     {
+//       hour: 9,
+//       count: 108
+//     },
+//     {
+//       hour: 10,
+//       count: 106
+//     },
+//     {
+//       hour: 11,
+//       count: 103
+//     },
+//     {
+//       hour: 12,
+//       count: 86
+//     },
+//     {
+//       hour: 13,
+//       count: 98
+//     },
+//     {
+//       hour: 14,
+//       count: 64
+//     },
+//     {
+//       hour: 15,
+//       count: 47
+//     },
+//     {
+//       hour: 16,
+//       count: 35
+//     },
+//     {
+//       hour: 17,
+//       count: 20
+//     },
+//     {
+//       hour: 18,
+//       count: 13
+//     },
+//     {
+//       hour: 19,
+//       count: 20
+//     },
+//     {
+//       hour: 20,
+//       count: 7
+//     },
+//     {
+//       hour: 21,
+//       count: 18
+//     },
+//     {
+//       hour: 22,
+//       count: 11
+//     },
+//     {
+//       hour: 23,
+//       count: 9
+//     }
+//   ])
+// )
 
-const employees = testData.map(item => String(item.employee).padStart(5, '0'))
+// const testData = [
+//   { employee: 1234, line: 1001, count: 12 },
+//   { employee: 12345, line: 1002, count: 7 },
+//   { employee: 23456, line: 1003, count: 14 },
+//   { employee: 34567, line: 1004, count: 3 },
+//   { employee: 45678, line: 1005, count: 10 },
+//   { employee: 56789, line: 1006, count: 8 },
+//   { employee: 67890, line: 1007, count: 15 },
+//   { employee: 78901, line: 1008, count: 5 },
+//   { employee: 89012, line: 1009, count: 11 },
+//   { employee: 90123, line: 1010, count: 6 },
+//   { employee: 12, line: 1011, count: 13 },
+//   { employee: 123, line: 1012, count: 4 },
+//   { employee: 234, line: 1013, count: 9 },
+//   { employee: 345, line: 1014, count: 2 },
+//   { employee: 456, line: 1015, count: 15 },
+//   { employee: 567, line: 1016, count: 8 },
+//   { employee: 678, line: 1017, count: 7 },
+//   { employee: 789, line: 1018, count: 14 },
+//   { employee: 890, line: 1019, count: 3 },
+//   { employee: 901, line: 1020, count: 12 },
+//   { employee: 34567, line: 1004, count: 3 },
+//   { employee: 45678, line: 1005, count: 10 },
+//   { employee: 56789, line: 1006, count: 8 },
+//   { employee: 67890, line: 1007, count: 15 },
+//   { employee: 78901, line: 1008, count: 5 },
+//   { employee: 89012, line: 1009, count: 11 },
+//   { employee: 90123, line: 1010, count: 6 },
+//   { employee: 12, line: 1011, count: 13 },
+//   { employee: 123, line: 1012, count: 4 },
+//   { employee: 234, line: 1013, count: 9 },
+//   { employee: 345, line: 1014, count: 2 },
+//   { employee: 456, line: 1015, count: 15 },
+//   { employee: 789, line: 1018, count: 14 },
+//   { employee: 890, line: 1019, count: 3 },
+//   { employee: 901, line: 1020, count: 12 },
+//   { employee: 34567, line: 1004, count: 3 },
+//   { employee: 45678, line: 1005, count: 10 },
+//   { employee: 56789, line: 1006, count: 8 },
+//   { employee: 67890, line: 1007, count: 15 },
+//   { employee: 78901, line: 1008, count: 5 },
+//   { employee: 89012, line: 1009, count: 11 },
+//   { employee: 90123, line: 1010, count: 6 },
+//   { employee: 12, line: 1011, count: 13 },
+//   { employee: 123, line: 1012, count: 4 },
+//   { employee: 234, line: 1013, count: 9 },
+//   { employee: 345, line: 1014, count: 2 },
+//   { employee: 456, line: 1015, count: 15 }
+// ]
+
+// const employees = testData.map(item => String(item.employee).padStart(5, '0'))
 
 const showLines = (lines, status) => {
   columns.value = Object.keys(lines[0])
@@ -237,9 +343,19 @@ const showLines = (lines, status) => {
       ...row
     }
   })
-
   selectedLines.value = lines
   isStatus.value = status
+}
+
+const searchEmployee = () => {
+  // Verifica que el valor sea un número de hasta 6 dígitos
+  if (employeeSearch.value && /^\d{1,6}$/.test(employeeSearch.value)) {
+    console.log('Searching for employee:', employeeSearch.value);
+    // Aquí implementa la lógica de búsqueda
+    // Por ejemplo, filtrar líneas por el ID del empleado
+  } else {
+    console.warn('Invalid employee ID');
+  }
 }
 
 onMounted(async () => {
@@ -250,9 +366,16 @@ onMounted(async () => {
       throw new Error('No authentication token available')
     }
 
+    if (!mobileLinesStore.linesByEmployee.length) {
+      await mobileLinesStore.getLinesByEmployee(token)
+    }
+
     if (!mobileLinesStore.linesByStatus.length) {
       await mobileLinesStore.getLinesByStatus(token)
     }
+
+    linesByEmployee.value = mobileLinesStore.linesByEmployee
+    console.log('lines employee', linesByEmployee.value);
 
     totalLines.value = mobileLinesStore.totalByStatus
     groupsByStatus.value = mobileLinesStore.linesByStatus
@@ -287,6 +410,26 @@ onMounted(async () => {
   gap: 1rem;
 }
 
+.combobox {
+  width: 12rem;
+  display: flex;
+  align-items: center;
+}
+
+
+
+.div__info-employees {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  z-index: 20;
+}
+
+.div__combo {
+  display: flex;
+  gap: 0.5rem;
+}
+
 .item {
   background-color: #fff;
   border-radius: 5px;
@@ -295,22 +438,32 @@ onMounted(async () => {
   align-items: center;
 }
 
-.container-lines__status {
-  width: 90%;
+.container-lines__status,
+.container-lines__employees {
+  width: 100%;
+  z-index: 1;
+  width: 95%;
   margin-left: auto;
   margin-right: auto;
   display: flex;
   justify-content: center;
 }
 
-.container-lines__employees {
-  width: 90%;
-  margin-left: auto;
-  margin-right: auto;
+.container-item__employees {
+  border: 3px solid var(--hover-button);
+  padding: 1rem;
+  display: flex;
+  justify-content: left;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 12rem;
+  max-height: 20rem;
 }
 
 .column-description {
-  max-width: 150px;
+  max-width: 300px;
 }
 
 .button__item {
@@ -324,5 +477,82 @@ onMounted(async () => {
 .container-chart {
   border: 1px solid red;
   height: 300px;
+}
+
+/*** class to InfoItem */
+.title__infoitem {
+  margin-left: 6px;
+  color: #030712;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.subtitle__infoitem {
+  color: #030712;
+  font-size: 12px;
+  font-weight: 400;
+  margin-top: 5px;
+}
+
+
+/** section separator */
+.custom-separator {
+  height: 5px;
+  background-color: var(--hover-button);
+  border-radius: 2px;
+  margin: 0 auto;
+  width: 100%;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+
+
+/**     styles form search */
+.form-search {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background-color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.form-search label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.form-search input {
+  width: 100px;
+  height: 32px;
+  padding: 0 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.form-search input:focus {
+  outline: none;
+  border-color: #0088cc;
+  box-shadow: 0 0 0 2px rgba(0, 136, 204, 0.2);
+}
+
+.form-search button {
+  background-color: #0088cc;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  height: 32px;
+  padding: 0 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.form-search button:hover {
+  background-color: #006da3;
 }
 </style>

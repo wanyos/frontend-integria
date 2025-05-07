@@ -15,7 +15,8 @@ import {
   MdAlternateemailSharp,
   IoOptionsSharp,
   FaPlusCircle,
-  HiSolidChip
+  HiSolidChip,
+  MdFormatlistnumberedOutlined
 } from 'oh-vue-icons/icons'
 import VueCookies from 'vue-cookies'
 import App from './App.vue'
@@ -37,7 +38,8 @@ addIcons(
   MdAlternateemailSharp,
   IoOptionsSharp,
   FaPlusCircle,
-  HiSolidChip
+  HiSolidChip,
+  MdFormatlistnumberedOutlined
 )
 
 const app = createApp(App)

@@ -63,6 +63,7 @@ watch(
 .container-objects {
   grid-column: 1 / -1;
   grid-row: 2 / 3;
+  z-index: 1;
 }
 
 .item {

@@ -2,26 +2,17 @@
   <ComboboxRoot v-model="selectedValue" class="ComboboxRoot">
     <ComboboxAnchor class="ComboboxAnchor">
       <v-icon :name="props.iconName" class="icon-calendar" />
-      <ComboboxInput
-        class="ComboboxInput"
-        placeholder="Select..."
-        :style="{ width: props.customWidth }"
-        name="combobox-input"
-        readonly
-      />
+      <ComboboxInput class="ComboboxInput" placeholder="Select..." :style="{ width: props.customWidth }"
+        name="combobox-input" readonly />
       <ComboboxTrigger class="ComboboxIcon">
         <v-icon name="bi-chevron-down" />
       </ComboboxTrigger>
 
+
       <ComboboxContent data-align="center" class="ComboboxContent">
         <ComboboxViewport class="ComboboxViewport">
           <ComboboxGroup>
-            <ComboboxItem
-              v-for="(option, index) in props.options"
-              :key="index"
-              class="ComboboxItem"
-              :value="option"
-            >
+            <ComboboxItem v-for="(option, index) in props.options" :key="index" class="ComboboxItem" :value="option">
               <ComboboxItemIndicator class="ComboboxItemIndicator">
                 <v-icon name="bi-check" />
               </ComboboxItemIndicator>
@@ -32,6 +23,7 @@
           </ComboboxGroup>
         </ComboboxViewport>
       </ComboboxContent>
+
     </ComboboxAnchor>
   </ComboboxRoot>
 </template>
@@ -89,6 +81,7 @@ const selectedValue = ref('')
   height: 100%;
   background-color: transparent;
 }
+
 .ComboboxInput[data-placeholder] {
   color: #1a1a1a;
 }
@@ -101,12 +94,12 @@ const selectedValue = ref('')
 }
 
 .ComboboxContent {
-  z-index: 10;
+  z-index: 15;
   width: 100%;
   position: absolute;
   top: 35px;
   left: 0;
-  overflow: hidden;
+  overflow: visible;
   background-color: white;
   border-radius: 6px;
   box-shadow:
@@ -128,6 +121,7 @@ const selectedValue = ref('')
 }
 
 .ComboboxItem {
+  z-index: 15;
   font-size: 14px;
   line-height: 1;
   border-radius: 5px;
@@ -137,10 +131,12 @@ const selectedValue = ref('')
   align-items: center;
   height: 25px;
 }
+
 .ComboboxItem[data-disabled] {
   color: #4ea6e1;
   pointer-events: none;
 }
+
 .ComboboxItem[data-highlighted] {
   outline: none;
   background-color: #0088cc;

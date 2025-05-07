@@ -5,6 +5,7 @@ import MobileLineApi from '@/api/inventory/mobileLine_api.js'
 export const useMobileLinesStore = defineStore('mobileLines', () => {
   // total lines, en uso, sin uso, error en el status
 
+  const linesByEmployee = ref([])
   const linesByStatus = ref([])
   const totalByStatus = ref(0)
 
@@ -12,6 +13,11 @@ export const useMobileLinesStore = defineStore('mobileLines', () => {
   // const totalMobileNewLines = ref(0)
   // const totalMobileInuseLines = ref(0)
   // const totalErrorStatus = ref(0)
+
+  const getLinesByEmployee = async token => { 
+    const linesEmployee = await MobileLineApi.getLinesByEmployee(token)
+    linesByEmployee.value = linesEmployee
+  }
 
   const getLinesByStatus = async token => {
     const linesStatus = await MobileLineApi.getLinesByStatus(token)
@@ -38,7 +44,9 @@ export const useMobileLinesStore = defineStore('mobileLines', () => {
   // }
 
   return {
+    getLinesByEmployee,
     getLinesByStatus,
+    linesByEmployee,
     totalByStatus,
     linesByStatus
 

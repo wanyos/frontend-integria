@@ -1,5 +1,6 @@
 import ApiBase from '../apiBase'
 
+
 class MobileLineApi extends ApiBase {
   async getLinesByStatus(token) {
     const needToken = true
@@ -23,29 +24,37 @@ class MobileLineApi extends ApiBase {
     return linesByStatus
   }
 
-  async getMobileLinesCount(token) {
+  async getLinesByEmployee(token) { 
     const needToken = true
     ApiBase._setToken(token)
-    return await this.get('/api/inventory/mobile-lines/count', needToken)
+    const allLinesByEmployee = await this.get('/api/inventory/mobile-lines/byemployee', needToken)
+
+    return allLinesByEmployee
   }
 
-  async getMobileNewLinesCount(token) {
-    const needToken = true
-    ApiBase._setToken(token)
-    return await this.get('/api/inventory/mobile-newlines/count', needToken)
-  }
+  // async getMobileLinesCount(token) {
+  //   const needToken = true
+  //   ApiBase._setToken(token)
+  //   return await this.get('/api/inventory/mobile-lines/count', needToken)
+  // }
 
-  async getMobileInuseLinesCount(token) {
-    const needToken = true
-    ApiBase._setToken(token)
-    return await this.get('/api/inventory/mobile-inuselines/count', needToken)
-  }
+  // async getMobileNewLinesCount(token) {
+  //   const needToken = true
+  //   ApiBase._setToken(token)
+  //   return await this.get('/api/inventory/mobile-newlines/count', needToken)
+  // }
 
-  async getErrorStatusLinesCount(token) {
-    const needToken = true
-    ApiBase._setToken(token)
-    return await this.get('/api/inventory/mobile-errorstatuslines/count', needToken)
-  }
+  // async getMobileInuseLinesCount(token) {
+  //   const needToken = true
+  //   ApiBase._setToken(token)
+  //   return await this.get('/api/inventory/mobile-inuselines/count', needToken)
+  // }
+
+  // async getErrorStatusLinesCount(token) {
+  //   const needToken = true
+  //   ApiBase._setToken(token)
+  //   return await this.get('/api/inventory/mobile-errorstatuslines/count', needToken)
+  // }
 
   /* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 
