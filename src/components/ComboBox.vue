@@ -2,17 +2,26 @@
   <ComboboxRoot v-model="selectedValue" class="ComboboxRoot">
     <ComboboxAnchor class="ComboboxAnchor">
       <v-icon :name="props.iconName" class="icon-calendar" />
-      <ComboboxInput class="ComboboxInput" placeholder="Select..." :style="{ width: props.customWidth }"
-        name="combobox-input" readonly />
+      <ComboboxInput
+        class="ComboboxInput"
+        placeholder="Select..."
+        :style="{ width: props.customWidth }"
+        name="combobox-input"
+        readonly
+      />
       <ComboboxTrigger class="ComboboxIcon">
         <v-icon name="bi-chevron-down" />
       </ComboboxTrigger>
 
-
       <ComboboxContent data-align="center" class="ComboboxContent">
-        <ComboboxViewport class="ComboboxViewport">
+        <ComboboxViewport class="ComboboxViewport" :style="{ maxHeight: props.maxHeight }">
           <ComboboxGroup>
-            <ComboboxItem v-for="(option, index) in props.options" :key="index" class="ComboboxItem" :value="option">
+            <ComboboxItem
+              v-for="(option, index) in props.options"
+              :key="index"
+              class="ComboboxItem"
+              :value="option"
+            >
               <ComboboxItemIndicator class="ComboboxItemIndicator">
                 <v-icon name="bi-check" />
               </ComboboxItemIndicator>
@@ -23,7 +32,6 @@
           </ComboboxGroup>
         </ComboboxViewport>
       </ComboboxContent>
-
     </ComboboxAnchor>
   </ComboboxRoot>
 </template>
@@ -54,6 +62,10 @@ const props = defineProps({
   iconName: {
     type: String,
     default: ''
+  },
+  maxHeight: {
+    type: String,
+    default: '200px'
   }
 })
 
@@ -109,6 +121,22 @@ const selectedValue = ref('')
 
 .ComboboxViewport {
   padding: 5px;
+  max-height: 200px; /* Altura máxima */
+  overflow-y: auto; /* Habilita el scroll vertical */
+  scrollbar-width: thin;
+}
+
+.ComboboxViewport::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ComboboxViewport::-webkit-scrollbar-thumb {
+  background-color: #c1c1c1;
+  border-radius: 3px;
+}
+
+.ComboboxViewport::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
 }
 
 .ComboboxEmpty {

@@ -184,6 +184,7 @@ aside > nav {
 main {
   grid-column: 2 / 3;
   overflow-y: auto; /* Permite el scroll solo dentro de main */
+  margin-bottom: 1rem;
 }
 
 footer {

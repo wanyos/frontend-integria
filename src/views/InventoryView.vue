@@ -1,7 +1,12 @@
 <template>
   <section class="main-container container-report">
     <div class="item div__select">
-      <ComboBox :options="SELECT_OBJECT" icon-name="hi-solid-chip" v-model="selectedObject" />
+      <ComboBox
+        :options="SELECT_OBJECT"
+        max-height="500px"
+        icon-name="hi-solid-chip"
+        v-model="selectedObject"
+      />
     </div>
     <div v-if="selectedObject" class="container-objects">
       <component :is="selectedComponent" />
