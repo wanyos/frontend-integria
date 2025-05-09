@@ -157,7 +157,28 @@ const showLinesEmployee = () => {
 const searchEmployee = () => {
   // Verifica que el valor sea un número de hasta 6 dígitos
   if (employeeSearch.value && /^\d{1,6}$/.test(employeeSearch.value)) {
-    console.log('Searching for employee:', employeeSearch.value)
+    // Probar diferentes formatos de ID (con y sin ceros iniciales)
+    const searchValue = employeeSearch.value
+    const numericValue = parseInt(searchValue, 10)
+
+    // Buscar el empleado considerando diferentes formatos posibles
+    const employee = employeeItems.value.find(item => {
+      const ownerAsString = String(item.owner)
+      const ownerAsNumber = parseInt(ownerAsString, 10)
+
+      return (
+        ownerAsString === searchValue || // Comparación exacta de strings
+        ownerAsNumber === numericValue // Comparación numérica (ignora ceros iniciales)
+      )
+    })
+
+    if (employee) {
+      employeeItems.value = [employee]
+    } else {
+      console.log('No employee found with ID:', employeeSearch.value)
+      // Opcional: mostrar mensaje al usuario
+      employeeItems.value = ['Invalid employee ID']
+    }
   } else {
     console.warn('Invalid employee ID')
   }
