@@ -1,4 +1,4 @@
-import ApiBase from './apiBase'
+import ApiBase from '../apiBase'
 
 class InventoryApi extends ApiBase {
   async getInventory(token) {

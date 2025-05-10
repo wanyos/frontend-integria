@@ -66,3 +66,20 @@ export const COLORS2 = [
   '#A3E4D7', // Verde pastel
   '#F5CBA7' // Naranja pastel
 ]
+
+export const SELECT_OBJECT = [
+  'Auricular',
+  'Impresora / Escaner',
+  'Linea fijo',
+  'Linea movil',
+  'Monitor',
+  'Ordenador',
+  'Raton',
+  'Repuesto',
+  'Tablet',
+  'Tablet grafica',
+  'Teclado',
+  'Telefono movil',
+  'Telefono fijo',
+  'Televisor'
+]

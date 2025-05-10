@@ -14,7 +14,7 @@
       </ComboboxTrigger>
 
       <ComboboxContent data-align="center" class="ComboboxContent">
-        <ComboboxViewport class="ComboboxViewport">
+        <ComboboxViewport class="ComboboxViewport" :style="{ maxHeight: props.maxHeight }">
           <ComboboxGroup>
             <ComboboxItem
               v-for="(option, index) in props.options"
@@ -62,6 +62,10 @@ const props = defineProps({
   iconName: {
     type: String,
     default: ''
+  },
+  maxHeight: {
+    type: String,
+    default: '200px'
   }
 })
 
@@ -89,6 +93,7 @@ const selectedValue = ref('')
   height: 100%;
   background-color: transparent;
 }
+
 .ComboboxInput[data-placeholder] {
   color: #1a1a1a;
 }
@@ -101,12 +106,12 @@ const selectedValue = ref('')
 }
 
 .ComboboxContent {
-  z-index: 10;
+  z-index: 15;
   width: 100%;
   position: absolute;
   top: 35px;
   left: 0;
-  overflow: hidden;
+  overflow: visible;
   background-color: white;
   border-radius: 6px;
   box-shadow:
@@ -116,6 +121,22 @@ const selectedValue = ref('')
 
 .ComboboxViewport {
   padding: 5px;
+  max-height: 200px; /* Altura máxima */
+  overflow-y: auto; /* Habilita el scroll vertical */
+  scrollbar-width: thin;
+}
+
+.ComboboxViewport::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ComboboxViewport::-webkit-scrollbar-thumb {
+  background-color: #c1c1c1;
+  border-radius: 3px;
+}
+
+.ComboboxViewport::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
 }
 
 .ComboboxEmpty {
@@ -128,6 +149,7 @@ const selectedValue = ref('')
 }
 
 .ComboboxItem {
+  z-index: 15;
   font-size: 14px;
   line-height: 1;
   border-radius: 5px;
@@ -137,10 +159,12 @@ const selectedValue = ref('')
   align-items: center;
   height: 25px;
 }
+
 .ComboboxItem[data-disabled] {
   color: #4ea6e1;
   pointer-events: none;
 }
+
 .ComboboxItem[data-highlighted] {
   outline: none;
   background-color: #0088cc;

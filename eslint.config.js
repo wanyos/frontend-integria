@@ -3,7 +3,6 @@ import pluginVue from 'eslint-plugin-vue'
 import pluginVitest from '@vitest/eslint-plugin'
 import pluginCypress from 'eslint-plugin-cypress/flat'
 import pluginPrettier from 'eslint-plugin-prettier'
-import eslintPluginComments from '@eslint-community/eslint-plugin-eslint-comments'
 
 const prettierPluginConfig = {
   plugins: {
@@ -11,21 +10,6 @@ const prettierPluginConfig = {
   },
   rules: {
     'prettier/prettier': 'warn'
-  }
-}
-
-// Configuración manual para eslint-comments en lugar de usar el preset
-const eslintCommentsConfig = {
-  plugins: {
-    '@eslint-community/eslint-comments': eslintPluginComments
-  },
-  rules: {
-    '@eslint-community/eslint-comments/disable-enable-pair': 'error',
-    '@eslint-community/eslint-comments/no-aggregating-enable': 'error',
-    '@eslint-community/eslint-comments/no-duplicate-disable': 'error',
-    '@eslint-community/eslint-comments/no-unlimited-disable': 'error',
-    '@eslint-community/eslint-comments/no-unused-disable': 'error',
-    '@eslint-community/eslint-comments/no-unused-enable': 'error'
   }
 }
 
@@ -49,7 +33,6 @@ export default [
   js.configs.recommended,
   ...pluginVue.configs['flat/essential'],
   prettierPluginConfig,
-  eslintCommentsConfig, // Reemplazamos la configuración preestablecida por nuestra configuración manual
 
   {
     ...pluginVitest.configs.recommended,

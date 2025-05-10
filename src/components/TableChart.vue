@@ -1,32 +1,41 @@
 <template>
-  <section class="container">
-    <table>
-      <caption>
-        {{
-          props.title
-        }}
-      </caption>
+  <section class="container chart-base">
+    <div class="table-scroll">
+      <table :class="props.tableClasses">
+        <caption>
+          {{
+            props.title
+          }}
+        </caption>
 
-      <thead>
-        <tr>
-          <th v-if="props.firstColumn.length > 0">Months</th>
-          <th v-for="(item, index) in props.dataColumn" :key="index">{{ item }}</th>
-        </tr>
-      </thead>
+        <thead>
+          <tr>
+            <th v-if="props.firstColumn.length > 0">Months</th>
+            <th
+              v-for="(item, index) in props.dataColumn"
+              :key="index"
+              :class="getSpecialClassForColumn(index)"
+            >
+              {{ item }}
+            </th>
+          </tr>
+        </thead>
 
-      <tbody>
-        <tr v-for="(row, rowIndex) in props.dataRow" :key="rowIndex">
-          <td v-if="props.firstColumn.length > 0">{{ props.firstColumn[rowIndex] }}</td>
-          <td
-            v-for="(value, key, colIndex) in row"
-            :key="colIndex"
-            :class="getColorClass(key, value)"
-          >
-            {{ value }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+        <tbody>
+          <tr v-for="(row, rowIndex) in props.dataRow" :key="rowIndex">
+            <td v-if="props.firstColumn.length > 0">{{ props.firstColumn[rowIndex] }}</td>
+            <td
+              v-for="(value, key, colIndex) in row"
+              :key="colIndex"
+              :class="[getColorClass(key, value), getSpecialClassForColumn(colIndex)]"
+              :title="colIndex === 5 ? value : ''"
+            >
+              {{ value }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </section>
 </template>
 
@@ -47,6 +56,14 @@ const props = defineProps({
   dataRow: {
     type: Array,
     default: () => []
+  },
+  specialColumnClasses: {
+    type: Object,
+    default: () => ({})
+  },
+  tableClasses: {
+    type: String,
+    default: ''
   }
 })
 
@@ -60,11 +77,32 @@ const getColorClass = (key, value) => {
   }
   return ''
 }
+
+const getSpecialClassForColumn = index => {
+  if (!props.specialColumnClasses || typeof props.specialColumnClasses !== 'object') {
+    return ''
+  }
+  return props.specialColumnClasses[index] || ''
+}
 </script>
 
-<style lang="css" scoped>
+<style lang="css">
+.chart-base {
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 15px;
+}
+
 .container {
-  /* padding: 25px; */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.table-scroll {
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 30rem;
   width: 100%;
 }
 
@@ -73,31 +111,41 @@ caption {
   font-size: 16px;
   font-weight: normal;
   color: #1a1a1a;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background-color: #fff;
+  padding: 10px 0;
 }
 
 table {
-  border: 1px solid lightslategray;
-  border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   width: 100%;
+  border-collapse: separate;
+  border-spacing: 10px 5px;
+}
+
+thead th {
+  position: sticky;
+  top: 2.2rem;
+  background-color: #fff;
+  z-index: 10;
+  border-bottom: 1px solid var(--color-text);
+  box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.05);
+}
+
+th,
+td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 th {
   position: relative;
-
   padding: 10px 20px;
   font-size: 14px;
   font-weight: normal;
   color: #1a1a1a;
-}
-
-th::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 10%;
-  width: 80%;
-  border-bottom: 2px solid black;
 }
 
 td {

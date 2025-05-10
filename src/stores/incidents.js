@@ -61,6 +61,8 @@ export const useIncidentsStore = defineStore('incidents', () => {
         ReportApi.getIncByWeekdays(startDate, endDate)
       ])
 
+      console.log('all by hours', allIncByHoursData)
+
       // Asignar los datos a las referencias reactivas
       incidentsRange.value = incidentsRangeData
       openIncidentsGroup.value = openIncidentsGroupData

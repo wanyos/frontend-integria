@@ -69,8 +69,8 @@ const chartOptions = ref({
   },
   plotOptions: {
     bar: {
-      borderRadius: 8,
-      columnWidth: '70%'
+      borderRadius: 6,
+      columnWidth: props.options.width ?? '70%'
     }
   },
   dataLabels: {
