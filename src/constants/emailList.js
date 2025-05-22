@@ -93,12 +93,14 @@ export const EMAIL_LIST = [
   {
     id: 20,
     resolutor: '6.01 APLIC GENERAL',
-    to: ['lista.integria.app.negocio@emtmadrid.es'],
-    cc: [
-      'Manuel.Sanchez@emtmadrid.es',
-      'PedroMiguel.Page@emtmadrid.es',
-      'Eduardo.DiazMayordomo@emtmadrid.es'
-    ],
+    to: ['juanjose.romero@emtmadrid.es', 'emilio.navarro@emtmadrid.es'],
+    cc: ['juanjor99@gmail.com'],
+    // to: ['lista.integria.app.negocio@emtmadrid.es'],
+    // cc: [
+    //   'Manuel.Sanchez@emtmadrid.es',
+    //   'PedroMiguel.Page@emtmadrid.es',
+    //   'Eduardo.DiazMayordomo@emtmadrid.es'
+    // ],
     cco: ['cau@emtmadrid.es']
   },
   {
@@ -197,5 +199,27 @@ export const EMAIL_LIST = [
     to: ['juanjoromero9@gmail.com', 'wanyos99@gmail.com'],
     cc: ['roybe99_99@hotmail.com', 'JuanJose.Romero@emtmadrid.es'],
     cco: ['wanyos99@emailmeter.com']
+  },
+  {
+    id: 50,
+    resolutor: 'VERCOM',
+    to: ['soporte@vercom.es', 'sergio.monzon@vercom.es'],
+    cc: [
+      'Manuel.Sanchez@emtmadrid.es',
+      'PedroMiguel.Page@emtmadrid.es',
+      'Eduardo.DiazMayordomo@emtmadrid.es'
+    ],
+    cco: ['cau@emtmadrid.es']
+  },
+  {
+    id: 147,
+    resolutor: 'PLYCA',
+    to: ['MariaBelen.Esteban@emtmadris.es', 'Carlos.Sanchez@emtmadrid.es'],
+    cc: [
+      'Manuel.Sanchez@emtmadrid.es',
+      'PedroMiguel.Page@emtmadrid.es',
+      'Eduardo.DiazMayordomo@emtmadrid.es'
+    ],
+    cco: ['cau@emtmadrid.es']
   }
 ]

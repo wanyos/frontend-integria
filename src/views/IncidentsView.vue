@@ -288,7 +288,8 @@ const handleSendGmail = async item => {
     emailResponses.value[item.resolutor] = { status: 'sending', message: 'Enviando...' }
     const incidents = item.incidentsResolutor
 
-    const res = await fetch('http://localhost:8022/send-gmail', {
+    // const res = await fetch('http://localhost:8022/send-gmail', {
+    const res = await fetch('http://localhost:8022/send-outlook', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: token.value },
       body: JSON.stringify({ email, cc, cco, title, comment, incidents })

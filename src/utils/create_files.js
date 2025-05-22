@@ -91,7 +91,7 @@ export const createFileIss = async (servideskInc, openDate, closeDate) => {
   for (const jsondata of result) {
     const filePath = await convertJsonToExcel(jsondata, orderServidesk, startDate, endDate)
     filesIss.push({
-      name: filePath.name,
+      name: `${filePath.name} ${startDate} - ${endDate}`,
       content: filePath.content,
       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     })
@@ -154,7 +154,7 @@ export const createFileIntegria = async (integriaInc, openDate, closeDate) => {
   for (const jsondata of result) {
     const file = await convertJsonToExcel(jsondata, orderIntegria, startDate, endDate)
     filesIntegria.push({
-      name: file.name,
+      name: `${file.name} ${startDate} - ${endDate}`,
       content: file.content,
       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     })
